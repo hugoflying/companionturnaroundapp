@@ -18,12 +18,8 @@
 <link rel="manifest" href="/manifest.json" />
 
 
-<!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<!-- Bulma CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+<!-- Bulma -->
+<link rel="stylesheet" href="/css/bulma.min.css">
 
 
 <style>
@@ -35,18 +31,11 @@
 
 /* ===== 1. DESIGN TOKENS ===== */
 :root {
-  /* Fonts */
-  --font-body:    'Inter', system-ui, sans-serif;
-  --font-title:   'Barlow Condensed', sans-serif;
-  --font-mono:    'JetBrains Mono', monospace;
-
-  /* Couleurs — palette design */
-  --bg:    #F3F5F9;
+  /* Couleurs */
+  --bg:    #f6f7fb;
   --card:  #ffffff;
-  --text:  #0F1F38;
-  --muted: #5A6B82;
-  --accent-blue: #3B82F6;
-  --accent-cyan: #06B6D4;
+  --text:  #111827;
+  --muted: #6b7280;
 
   /* Ombres */
   --shadow:  0 10px 28px rgba(0,0,0,.08);
@@ -74,16 +63,16 @@
 
 /* ===== 2. DARK MODE — Manuel uniquement (bouton Clair/Sombre) ===== */
 html.dark {
-  --bg:                #111315;
-  --card:              #1c1e22;
-  --text:              #e4e6ea;
-  --muted:             #8a8f9a;
+  --bg:                #0f1115;
+  --card:              #151922;
+  --text:              #e5e7eb;
+  --muted:             #9ca3af;
   --shadow:            0 10px 28px rgba(0,0,0,.45);
-  --shadow2:           0 6px 18px rgba(0,0,0,.40);
-  --field-bg:          #16181c;
-  --field-text:        #e4e6ea;
-  --field-border:      rgba(255,255,255,.14);
-  --field-placeholder: rgba(160,165,175,.90);
+  --shadow2:           0 6px 18px rgba(0,0,0,.50);
+  --field-bg:          #0f172a;
+  --field-text:        #e5e7eb;
+  --field-border:      rgba(229,231,235,.16);
+  --field-placeholder: rgba(156,163,175,.95);
 }
 
 /* ===== 3. BASE ===== */
@@ -92,7 +81,6 @@ html, body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', system-ui, sans-serif;
 }
 
 /* ===== 4. FIXED HEADER ===== */
@@ -100,17 +88,17 @@ html, body {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 3000;
-  background: var(--card);
+  background: var(--bg);
   border-bottom: 1px solid rgba(0,0,0,.08);
+  /* iOS Dynamic Island / notch : décale le contenu sous la zone de sécurité */
   padding-top: env(safe-area-inset-top);
 }
 html.dark .fixed-header { border-bottom-color: rgba(255,255,255,.08); }
-html.dark #topbarSep { background: rgba(255,255,255,.08) !important; }
 
 .fixed-header-inner {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 8px 14px 6px;
+  padding: 10px 14px 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -135,24 +123,23 @@ body.has-tab .app-wrap { display: block; }
 }
 
 /* ===== 7. TABS ===== */
-.tabs-row {
-  display: flex;
-  background: var(--bg);
-}
-html.dark .tabs-row { }
+.tabs-row { display: flex; justify-content: center; }
 
 .tabs-chip {
   width: 100%;
   max-width: 1120px;
+  border-radius: 999px;
   padding: 10px 14px;
-  background: transparent;
+  background: var(--card);
+  box-shadow: var(--shadow2);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  white-space: nowrap;
+  scrollbar-width: thin;
 }
 .tabs-chip .button {
   border-radius: 999px;
@@ -181,9 +168,7 @@ html.dark .tabs-row { }
   gap:10px;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 6px 0 4px;
 }
-html.dark .timer-row { }
 .timer-chip{
   min-width: 140px;
   border-radius: 999px;
@@ -268,14 +253,7 @@ html.dark .card-header {
   background: #1f2940;
   background: color-mix(in srgb, var(--card) 80%, #60a5fa 20%);
 }
-html .card-header-title {
-  font-weight: 700;
-  color: var(--text);
-  font-family: var(--font-title);
-  font-size: 1rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
+html .card-header-title { font-weight: 900; color: var(--text); }
 
 .section-collapse { cursor: pointer; user-select: none; }
 .collapsed-body   { display: none; }
@@ -600,16 +578,12 @@ html.dark .tl-label { background: #232733; color: #f5f5f5; box-shadow: 0 0 0 1px
 .tl-event .tl-dot { background: var(--c); }
 
 .tl-range {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  white-space: nowrap;
-  line-height: 1;
-  z-index: 2;
   height: 16px;
-  background: rgba(100,116,139,.42);
+  background: rgba(100,116,139,.42);                          /* Fallback */
   background: color-mix(in srgb, var(--c) 42%, transparent);
   border: 2px solid var(--c);
   border-radius: 999px;
+  z-index: 2;
 }
 .tl-range-label {
   position: absolute;
@@ -1133,337 +1107,6 @@ html.dark .ak-pair-divider { background: rgba(255,255,255,.10); }
 .ak-tsuffix      { font-size: .7em; opacity: .7; font-weight: 600; }
 .ak-use-btn      { margin-top: 6px; }
 
-/* Tab avec stripe CIE */
-.tab-btn-inner {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 2px;
-}
-.tab-cie-stripe {
-  width: 4px;
-  height: 22px;
-  border-radius: 3px;
-  flex-shrink: 0;
-}
-.tab-label {
-  font-family: var(--font-title);
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  font-size: .95rem;
-}
-
-/* ===== TAB CARD — chip compact ===== */
-.tab-card {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 10px 0 10px;
-  border-radius: 10px;
-  min-width: 120px;
-  max-width: 180px;
-  height: 52px;
-  cursor: pointer;
-  background: transparent;
-  /* border-left = stripe CIE, fixé en JS via style inline */
-  border: 1.5px solid transparent;
-  border-left: 4px solid transparent;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-  transition: background .15s, box-shadow .15s;
-}
-.tab-card.is-active {
-  background: var(--card);
-  border-color: rgba(0,0,0,.10);
-  /* border-left-color est mis en JS */
-  box-shadow: 0 2px 12px rgba(0,0,0,.08);
-}
-html.dark .tab-card.is-active { border-color: rgba(255,255,255,.12); }
-/* Stripe div cachée — remplacée par border-left */
-.tab-card-stripe { display: none; }
-.tab-card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 6px;
-}
-.tab-card-vol {
-  font-family: var(--font-title);
-  font-size: .95rem;
-  font-weight: 700;
-  letter-spacing: .5px;
-  color: var(--text);
-  line-height: 1;
-  white-space: nowrap;
-}
-.tab-card-dest {
-  font-size: .65rem;
-  color: var(--muted);
-  font-weight: 600;
-  letter-spacing: .3px;
-  white-space: nowrap;
-  margin-top: 3px;
-}
-.tab-card-close {
-  background: transparent;
-  border: none;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: .95rem;
-  line-height: 1;
-  padding: 0;
-  flex-shrink: 0;
-}
-.tab-card-close:hover { color: #ef4444; }
-
-/* Barre de progression — visible sur tous les onglets */
-.tab-card-bar {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 3px;
-  background: rgba(0,0,0,.06);
-}
-.tab-card.is-active .tab-card-bar { opacity: 1; }
-html.dark .tab-card-bar { background: rgba(255,255,255,.08); }
-.tab-card-bar-fill {
-  height: 100%;
-  background: var(--accent-blue);
-  transition: background .5s ease;
-  will-change: width;
-}
-.tab-card-bar-fill.is-warning { background: #f59e0b; } /* H-5 */
-.tab-card-bar-fill.is-over    { background: #ef4444; } /* H0+ */
-.tab-card-cd { display: none; }
-
-
-/* Bouton Liste des vols dans le header */
-.liste-btn {
-  font-family: var(--font-title) !important;
-  font-weight: 700 !important;
-  letter-spacing: 1px !important;
-  font-size: .85rem !important;
-  border-radius: 999px !important;
-  padding: 0 14px !important;
-}
-
-/* ===== LISTE DES VOLS SCREEN ===== */
-#listeScreen {
-  display: none;
-  flex-direction: column;
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  background: var(--bg);
-  overflow: hidden;
-}
-body.no-tab #listeScreen { display: flex; }
-body.has-tab #listeScreen { display: none; }
-
-.liste-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 14px 90px;   /* 90px = place pour le bouton flottant */
-  -webkit-overflow-scrolling: touch;
-}
-
-.liste-header {
-  background: var(--card);
-  border-bottom: 1px solid rgba(0,0,0,.08);
-  padding: 8px 14px 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-}
-html.dark .liste-header { border-bottom-color: rgba(255,255,255,.08); }
-
-.liste-title {
-  font-family: var(--font-title);
-  font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--text);
-  line-height: 1;
-}
-.liste-subtitle {
-  font-size: .72rem;
-  font-weight: 600;
-  color: var(--muted);
-  letter-spacing: 1px;
-  margin-top: 4px;
-}
-
-.liste-search-wrap {
-  padding: 10px 14px 6px;
-  background: var(--card);
-  border-bottom: 1px solid rgba(0,0,0,.06);
-  flex-shrink: 0;
-}
-html.dark .liste-search-wrap { border-bottom-color: rgba(255,255,255,.06); }
-
-.liste-filter-bar {
-  padding: 6px 14px 8px;
-  background: var(--card);
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-  border-bottom: 1px solid rgba(0,0,0,.06);
-  flex-shrink: 0;
-}
-
-/* ===== FLIGHT CARD ===== */
-.flight-card {
-  position: relative;
-  background: var(--card);
-  border: 1px solid rgba(0,0,0,.08);
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 8px;
-  box-shadow: var(--shadow2);
-  cursor: pointer;
-  transition: transform .12s, box-shadow .12s;
-}
-html.dark .flight-card { border-color: rgba(255,255,255,.08); }
-.flight-card:active { transform: scale(.99); }
-.flight-card.is-suivi { border-color: #3B82F6; }
-
-.flight-card-stripe {
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 4px;
-}
-
-.flight-card-inner {
-  padding: 10px 12px 10px 16px;
-}
-
-.flight-card-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.fc-tail {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-family: var(--font-title);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-}
-
-.fc-info { flex: 1; min-width: 0; }
-
-.fc-flight-num {
-  font-family: var(--font-title);
-  font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: 0.6px;
-  color: var(--text);
-  line-height: 1;
-}
-.fc-airline {
-  font-size: .72rem;
-  color: var(--muted);
-  margin-top: 2px;
-}
-.fc-route {
-  font-family: var(--font-mono);
-  font-size: .9rem;
-  font-weight: 700;
-  color: var(--text);
-  text-align: right;
-  line-height: 1;
-}
-.fc-reg-type {
-  font-size: .68rem;
-  color: var(--muted);
-  text-align: right;
-  margin-top: 2px;
-}
-
-.flight-card-bottom {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-top: 8px;
-  border-top: 1px dashed rgba(0,0,0,.10);
-}
-html.dark .flight-card-bottom { border-top-color: rgba(255,255,255,.10); }
-
-.fc-times {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.fc-time-block { display: flex; flex-direction: column; }
-.fc-time-label {
-  font-size: .62rem;
-  font-weight: 700;
-  color: var(--muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.fc-time-val {
-  font-family: var(--font-mono);
-  font-size: .88rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-top: 2px;
-}
-.fc-arrow { color: var(--muted); font-size: .9rem; }
-
-.fc-parking {
-  background: rgba(6,182,212,.12);
-  border: 1px solid rgba(6,182,212,.35);
-  border-radius: 7px;
-  padding: 3px 8px;
-  text-align: center;
-  flex-shrink: 0;
-}
-.fc-pk-label { font-size: .55rem; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
-.fc-pk-val {
-  font-family: var(--font-title);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #06B6D4;
-  line-height: 1;
-}
-
-.fc-suivi-btn {
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-family: var(--font-title);
-  font-weight: 700;
-  font-size: .78rem;
-  letter-spacing: 0.8px;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: background .15s;
-}
-.fc-suivi-btn.is-suivi {
-  background: #3B82F6;
-  border: 1.5px solid #3B82F6;
-  color: #fff;
-}
-.fc-suivi-btn.is-not-suivi {
-  background: transparent;
-  border: 1.5px solid rgba(0,0,0,.18);
-  color: var(--text);
-}
-html.dark .fc-suivi-btn.is-not-suivi { border-color: rgba(255,255,255,.22); }
-
-
 /* ===== 31. DARK MODE — BOUTONS SPÉCIAUX ===== */
 html.dark #btn-recherche-bag,
 html.dark #btn-inad,
@@ -1655,7 +1298,30 @@ html.dark #btn-gpu.is-info { background: #2563eb; color: #fff; border-color: #25
   .poids-corr-short { display: inline; }
 }
 
-/* MODE LECTURE SEULE supprimé */
+/* ===== MODE LECTURE SEULE ===== */
+body.readonly-mode input:not([type="hidden"]):not(.fixed-header *),
+body.readonly-mode select:not(.fixed-header *),
+body.readonly-mode textarea:not(.fixed-header *),
+body.readonly-mode button:not(.readonly-allowed):not(.fixed-header button):not(.fixed-footer button) {
+  pointer-events: none !important;
+  opacity: 0.55 !important;
+}
+.fixed-header button, .fixed-footer button {
+  pointer-events: all !important;
+  opacity: 1 !important;
+}
+/* Boutons de navigation consultables en readonly */
+body.readonly-mode #ldmTabArr,
+body.readonly-mode #ldmTabPrevi,
+body.readonly-mode #ldmTabFinal,
+body.readonly-mode #ldmTabFuel,
+body.readonly-mode #seg-arr-li a,
+body.readonly-mode #seg-dep-li a,
+body.readonly-mode #settingsFab,
+body.readonly-mode #loadFab {
+  pointer-events: all !important;
+  opacity: 1 !important;
+}
 /* Overlay intercepteur de clics en readonly */
 #readonlyOverlay {
   display: none;
@@ -1668,11 +1334,26 @@ body.readonly-mode #readonlyOverlay {
   display: block;
 }
 /* Les modals de lock sont toujours cliquables, au-dessus de l'overlay */
-/* locks supprimés */
-/* */ .void-selector {
+#lockModal, #lockStolenModal, #lockBackdrop,
+#lockModal *, #lockStolenModal * {
   pointer-events: all !important;
 }
-/* #readonlyBanner supprimé */
+#readonlyBanner {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  background: #ef4444;
+  color: #fff;
+  text-align: center;
+  font-size: .82rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  letter-spacing: .03em;
+  cursor: pointer;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
 </style>
 </head>
 
@@ -2110,21 +1791,12 @@ body.readonly-mode #readonlyOverlay {
 </div><!-- /#ldmModal -->
   
 <!-- ===== FIXED HEADER ===== -->
-<div class="fixed-header" id="fixedHeader" style="background:var(--bg);">
+<div class="fixed-header" id="fixedHeader">
+  <div class="fixed-header-inner">
 
-  <!-- Zone blanche : MES VOLS + AJOUTER -->
-  <div style="background:var(--card); padding:8px 14px 10px; border-bottom:1px solid rgba(0,0,0,.08);">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
-      <div style="font-family:var(--font-title);font-size:1.3rem;font-weight:700;letter-spacing:2px;color:var(--text);line-height:1;">MES VOLS</div>
-      <button class="button is-light is-small liste-btn" id="btnGoListe"
-              onclick="goToListe()" type="button">+ AJOUTER</button>
-    </div>
-  </div>
+    <div class="topbar-inner"></div>
 
-  <!-- Zone grise : onglets + timers -->
-  <div class="fixed-header-inner" style="padding:6px 14px 6px;">
-
-    <div class="tabs-row" style="border-top:none;">
+    <div class="tabs-row">
       <div id="tab-bar" class="tabs-chip"></div>
     </div>
 
@@ -2148,41 +1820,10 @@ body.readonly-mode #readonlyOverlay {
   </div>
 </div>
 
+<div id="readonlyOverlay" onclick="showLockModal(window._lockOwner)"></div>
 
-
-<!-- ===== LISTE DES VOLS ===== -->
-<div id="listeScreen">
-
-  <div class="liste-header">
-    <div class="liste-title">LISTE DES VOLS</div>
-    <div style="display:flex; gap:8px; align-items:center;">
-      <button class="button is-small is-light liste-btn" id="listeBtnRefresh" onclick="listeRefresh()" type="button">↻</button>
-      <button class="button is-link is-small liste-btn" id="listeBtnMesVols"
-              onclick="listGoToMesVols()" type="button"
-              style="display:none;">
-        MES VOLS →</button>
-    </div>
-  </div>
-
-  <div class="liste-search-wrap">
-    <input id="listeSearch" class="input" type="text" placeholder="Vol, immat, destination…"
-           oninput="listeApplyFilter()">
-  </div>
-
-  <div class="liste-filter-bar" id="listeFilterBar"></div>
-
-  <div class="liste-body" id="listeBody"></div>
-
-  <!-- Bouton fixe en bas : nouveau vol manuel -->
-  <div style="position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:10;">
-    <button class="button is-light" type="button" onclick="listeNouveauVolManuel()"
-            style="border-radius:999px; font-family:var(--font-title); font-weight:700;
-                   letter-spacing:1px; font-size:.85rem; padding:0 22px; height:44px;
-                   box-shadow:0 4px 16px rgba(0,0,0,.12); border:1.5px solid rgba(0,0,0,.12);">
-      ✏️ Vol manuel
-    </button>
-  </div>
-
+<div id="readonlyBanner" onclick="showLockModal(window._lockOwner)" class="readonly-allowed">
+  🔒 LECTURE SEULE — Vol suivi par <span id="readonlyOwner"></span> — Appuyer pour reprendre
 </div>
 
 <div class="app-wrap">
@@ -2493,7 +2134,7 @@ body.readonly-mode #readonlyOverlay {
   </div>
 
   <div class="action-bar">
-    <button class="button action-btn action-btn--validate" id="validate" onclick="saveAndValidate()">
+    <button class="button action-btn action-btn--validate" id="validate" onclick="openRZAModal()">
       <span class="action-btn-icon">✅</span><span class="action-btn-label">Valider</span>
     </button>
     <button class="button action-btn action-btn--clear" id="clearFields" onclick="openClearFieldsModal()">
@@ -2506,7 +2147,30 @@ body.readonly-mode #readonlyOverlay {
 
 </div>
 
+  <!-- ===== RZA MODAL ===== -->
+<div id="rzaBackdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:6000;"></div>
 
+<div id="rzaModal" style="display:none; position:fixed; inset:0; z-index:6100; align-items:center; justify-content:center; padding:14px;">
+  <div class="card" style="width:min(420px, 100%);">
+    <header class="card-header">
+      <p class="card-header-title">RZA requis</p>
+    </header>
+    <div class="card-content">
+      <div class="field">
+        <label class="label">RZA en charge du vol :</label>
+        <div class="control">
+          <input id="rzaModalInput" class="input uppercase" type="text" maxlength="3" autocomplete="off" spellcheck="false">
+        </div>
+        <p class="help" id="rzaHelp" style="display:none; color:#ef4444; font-weight:800;">2 ou 3 lettres uniquement.</p>
+      </div>
+
+      <div class="buttons is-right">
+        <button class="button is-light" type="button" onclick="closeRZAModal(false)">Annuler</button>
+        <button class="button is-link" type="button" onclick="submitRZAModal()">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal confirmation TOUT FERMER -->
 <div id="closeAllModal" style="display:none; position:fixed; inset:0; z-index:6400; background:rgba(0,0,0,.45); align-items:center; justify-content:center; padding:14px;">
@@ -2529,6 +2193,41 @@ body.readonly-mode #readonlyOverlay {
 
 <!-- Modal confirmation EFFACER champs -->
 <!-- Modal fermeture onglet -->
+<!-- ===== LOCK MODAL ===== -->
+<div id="lockBackdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:7000; pointer-events:none;"></div>
+<div id="lockModal" style="display:none; position:fixed; inset:0; z-index:7100; align-items:center; justify-content:center; padding:14px; pointer-events:all !important;">
+  <div class="card" style="width:min(360px,100%); border-top:4px solid #ef4444;">
+    <header class="card-header">
+      <p class="card-header-title" style="color:#ef4444;">🔒 Vol en cours de traitement</p>
+    </header>
+    <div class="card-content" style="padding:1rem;">
+      <p id="lockModalMsg" style="margin-bottom:16px; font-size:.92rem; color:var(--text);">Ce vol est actuellement suivi par <strong id="lockModalRza" style="color:#111;font-weight:900;"></strong>.</p>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <button class="button is-danger is-fullwidth readonly-allowed" type="button" onclick="forceTakeLock()" style="font-weight:800;">
+          🔓 Reprendre le vol
+        </button>
+        <button class="button is-light is-fullwidth readonly-allowed" type="button" onclick="closeLockModal()" style="margin-top:4px;">
+          Annuler
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LOCK STOLEN MODAL ===== -->
+<div id="lockStolenModal" style="display:none; position:fixed; inset:0; z-index:7200; align-items:center; justify-content:center; padding:14px; background:rgba(0,0,0,.55);">
+  <div class="card" style="width:min(360px,100%); border-top:4px solid #f59e0b;">
+    <header class="card-header">
+      <p class="card-header-title" style="color:#d97706;">⚠️ Vol repris</p>
+    </header>
+    <div class="card-content" style="padding:1rem;">
+      <p id="lockStolenMsg" style="margin-bottom:16px; font-size:.92rem; color:var(--text);"></p>
+      <button class="button is-warning is-fullwidth readonly-allowed" type="button" onclick="closeLockStolenModal()" style="font-weight:800;">
+        OK
+      </button>
+    </div>
+  </div>
+</div>
 
 <div id="tabCloseModal" style="display:none; position:fixed; inset:0; z-index:6500; background:rgba(0,0,0,.45); align-items:center; justify-content:center; padding:14px;">
   <div class="card" style="width:min(340px, 100%);">
@@ -2785,7 +2484,12 @@ function setTabData(data){
   localStorage.setItem('tab-'+currentTabId, JSON.stringify(data));
 
   // ✅ Synchro inter-appareils : envoyer akMeta dans le patch WebSocket
-  /* sync WS supprimé */
+  if(typeof pendingPatch !== 'undefined' && !isApplyingRemoteUpdate){
+    pendingPatch['__akMeta'] = JSON.stringify(data.akMeta);
+    if(socket && socket.readyState === WebSocket.OPEN && currentSocketKey){
+      flushPendingPatch();
+    }
+  }
 }
 
 /**
@@ -4001,29 +3705,8 @@ function refreshUIForTabs(){
 
   if(!hasTab){
     currentTabId = null;
+    closeAKPicker();
     stopCountdown(true);
-    const ls2 = document.getElementById('listeScreen');
-    const hdr2 = document.getElementById('fixedHeader');
-    const ftr2 = document.getElementById('fixedFooter');
-    const lFab2 = document.getElementById('loadFab');
-    const sFab2 = document.getElementById('settingsFab');
-    if(ls2)   ls2.style.display  = 'flex';  // force inline
-    if(hdr2)  hdr2.style.display = 'none';
-    if(ftr2)  ftr2.style.display = 'none';
-    if(lFab2) lFab2.style.display = 'none';
-    if(sFab2) sFab2.style.display = 'none';
-    listeRefresh();
-  } else {
-    const ls2  = document.getElementById('listeScreen');
-    const hdr2 = document.getElementById('fixedHeader');
-    const ftr2 = document.getElementById('fixedFooter');
-    const lFab2 = document.getElementById('loadFab');
-    const sFab2 = document.getElementById('settingsFab');
-    if(ls2)   ls2.style.display  = '';
-    if(hdr2)  hdr2.style.display = '';
-    if(ftr2)  ftr2.style.display = '';
-    if(lFab2) lFab2.style.display = '';
-    if(sFab2) sFab2.style.display = '';
   }
 }
 
@@ -4038,7 +3721,7 @@ function initForm(){
 
   // 3) Autosave + unload
   attachAutoSave();
-  window.addEventListener('beforeunload', ()=>{ saveCurrentTabData(); });
+  window.addEventListener('beforeunload', ()=>{ saveCurrentTabData(); releaseLock(); });
 
   // 4) Listeners INFO VOL -> bandeau essentiel instant + label onglet
   const hookStrip = (id, ev='input')=>{
@@ -4180,7 +3863,6 @@ function initForm(){
 
   // 9) Final init
   setDefaultDateToTodayIfEmpty();
-  _startTabCDInterval();
 
   updateHeaderOffset();
   window.addEventListener('resize', ()=>{
@@ -4210,7 +3892,8 @@ function initForm(){
   });
 
   // ✅ synchro temps réel APRÈS restauration complète du vol
-  /* sync supprimé */
+  setupRealtimeSync();
+  connectFlightSocket();
   if(typeof twSyncAll === "function") setTimeout(twSyncAll, 50);
 }
 
@@ -4302,143 +3985,78 @@ function renderTabs(){
   const tabBar = document.getElementById('tab-bar');
   if(!tabBar) return;
 
-  // Vider le tab bar (plus de bouton + ni Liste — gérés dans le topbar)
-  tabBar.innerHTML = '';
+  tabBar.innerHTML = `
+    <button class="button is-success is-light" type="button" onclick="createNewTab()">
+      +
+    </button>
+    <button class="button is-link is-light" type="button"
+            onclick="openAKPicker();">
+      + Liste vols
+    </button>
+  `;
 
   let tabs = JSON.parse(localStorage.getItem('flightTabs') || '[]');
   if(!Array.isArray(tabs)) tabs = [];
 
-  // Mettre à jour le sous-titre "MES VOLS" et afficher le bouton "+ AJOUTER"
-  const sub = document.getElementById('mesVolsSubtitle');
-  if(sub){
-    const activeLabel = currentTabId
-      ? (() => {
-          const d = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
-          const depFF = (d?.akMeta?.depFF||'').toUpperCase().trim();
-          const arrFF = (d?.akMeta?.arrFF||'').toUpperCase().trim();
-          const cie  = (d.Cie||'').toUpperCase();
-          const nvol = (d.NVol||'').toUpperCase();
-          return depFF || arrFF || (cie+nvol) || '';
-        })()
-      : '';
-    sub.textContent = `${tabs.length} SUIVI${tabs.length>1?'S':''}`
-      + (activeLabel ? ` · ${activeLabel}` : '');
-  }
-  const btnAjouter = document.getElementById('btnGoListe');
-  if(btnAjouter) btnAjouter.style.display = tabs.length > 0 ? '' : 'none';
-
   tabs.forEach((id)=>{
     const data = JSON.parse(localStorage.getItem('tab-'+id) || '{}');
+
     const cie  = (data.Cie  || '').toUpperCase();
+    const nvol = (data.NVol || '').toUpperCase();
     const to   = (data.To   || '').toUpperCase();
-    const from = (data.From || '').toUpperCase();
+
+    // ✅ Priorité : depFF > arrFF > Cie+NVol
     const depFF = (data?.akMeta?.depFF || '').toUpperCase().trim();
     const arrFF = (data?.akMeta?.arrFF || '').toUpperCase().trim();
-    const volRef = depFF || arrFF || `${cie}${(data.NVol||'').toUpperCase()}`.trim() || 'VOL';
-    const dest = to || '---';
+    const volRef = depFF || arrFF || `${cie}${nvol}`.trim();
 
-    const CIE_COLORS_TAB = {FR:'#073590',W6:'#C6007E',AF:'#002157',U2:'#FF6600',H4:'#0E3B92',RK:'#0A4B7A',W4:'#1B68C5'};
-    const cieColor = CIE_COLORS_TAB[cie] || '#334155';
+    let label =
+      volRef || to
+        ? (to ? `${volRef} | ${to}`.trim() : volRef)
+        : 'VOL';
 
-    const card = document.createElement('div');
-    card.className = 'tab-card' + (id === currentTabId ? ' is-active' : '');
-    card.dataset.tabId = id;
-    card.onclick = () => switchTab(id);
-    card.style.borderLeftColor = cieColor;
+    const wrap = document.createElement('span');
+    wrap.className = 'tab-wrap';
 
-    card.innerHTML = `
-      <div class="tab-card-stripe" style="background:${cieColor};"></div>
-      <div class="tab-card-top">
-        <div style="min-width:0;">
-          <div class="tab-card-vol">${volRef}</div>
-          <div class="tab-card-dest">${from}→${dest}</div>
-        </div>
-        <button class="tab-card-close" type="button"
-                onclick="event.stopPropagation(); openTabCloseModal('${id}')">×</button>
-      </div>
-      <div class="tab-card-bar">
-        <div class="tab-card-bar-fill" id="tab-bar-fill-${id}" style="width:0%"></div>
-      </div>
-      <div class="tab-card-cd" id="tab-cd-${id}"></div>`;
+    // bouton onglet (switch)
+    const btn = document.createElement('button');
+    btn.className = `button ${id === currentTabId ? 'is-link' : 'is-light'}`;
+    btn.textContent = label || 'VOL';
+    btn.onclick = ()=> switchTab(id);
+    btn.ondblclick = ()=> openTabCloseModal(id);
 
-    tabBar.appendChild(card);
+    // Bouton refresh ↻ — toujours affiché, grisé si pas de AK
+    const r = document.createElement('button');
+    r.className = 'button is-light tab-refresh';
+    r.type = 'button';
+    r.title = 'Rafraîchir depuis AK';
+    r.innerHTML = '↻';
+    r.onclick = async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      r.classList.add('is-loading');
+      try { await refreshAKTab(id); }
+      finally { r.classList.remove('is-loading'); }
+    };
 
-    // Calculer CD immédiatement
-    _updateTabCD(id, data);
+    if (!data.akMeta) {
+      r.disabled = true;
+      r.title = "Pas de vol AK associé";
+      r.style.opacity = '0.45';
+      r.style.cursor = 'not-allowed';
+    }
+
+    wrap.appendChild(btn);
+    wrap.appendChild(r);
+    tabBar.appendChild(wrap);
   });
 
   updateHeaderOffset();
 }
 
-function _updateTabCD(tabId, data){
-  const fillEl = document.getElementById('tab-bar-fill-' + tabId);
-  if(!fillEl) return;
-
-  const sobtTxt = data?.SOBT || '';
-  const aibtTxt = data?.AIBT || '';
-  const aobtTxt = data?.AOBT || '';
-
-  if(!sobtTxt){
-    fillEl.style.width = '0%';
-    fillEl.className = 'tab-card-bar-fill';
-    return;
-  }
-
-  const parseHM = t => { if(!t) return null; const [h,m]=t.split(':').map(Number); return h*60+m; };
-  const SOBT = parseHM(sobtTxt);
-  if(SOBT == null) return;
-
-  if(aobtTxt){
-    // Vol parti — barre pleine, rouge si retard
-    const AOBT = parseHM(aobtTxt);
-    let diff = AOBT - SOBT; if(diff>720) diff-=1440; if(diff<-720) diff+=1440;
-    fillEl.style.width = '100%';
-    fillEl.className = 'tab-card-bar-fill' + (diff >= 0 ? ' is-over' : '');
-    return;
-  }
-
-  // Temps actuel en minutes + secondes fractionnelles (smooth)
-  const now = new Date();
-  const nowMins = (isUTC ? now.getUTCHours() : now.getHours()) * 60
-                + (isUTC ? now.getUTCMinutes() : now.getMinutes())
-                + (isUTC ? now.getUTCSeconds() : now.getSeconds()) / 60;
-
-  let diffMin = SOBT - nowMins; // positif = temps restant, négatif = dépassé
-  if(diffMin > 720)  diffMin -= 1440;
-  if(diffMin < -720) diffMin += 1440;
-
-  // Couleur : bleu > H-5, orange entre H-5 et H+1, rouge après H+1
-  let cls = 'tab-card-bar-fill';
-  if(diffMin < -1)     cls += ' is-over';    // dépassé de plus d'1 min → rouge
-  else if(diffMin < 5) cls += ' is-warning'; // entre H-5 et H+1 → orange
-  fillEl.className = cls;
-
-  // Progress : entre AIBT (ou SOBT-60min) et SOBT, en continu
-  const AIBT = parseHM(aibtTxt) || (SOBT - 60);
-  const total = SOBT - AIBT;
-  const elapsed = nowMins - AIBT;
-  const pct = total > 0 ? Math.max(0, Math.min(100, (elapsed / total) * 100)) : (diffMin <= 0 ? 100 : 0);
-  fillEl.style.width = pct.toFixed(3) + '%'; // 3 décimales → transition CSS ultra-smooth
-}
-
-// requestAnimationFrame — 60fps, ultra-smooth
-let _tabCDRaf = null;
-function _startTabCDInterval(){
-  if(_tabCDRaf) cancelAnimationFrame(_tabCDRaf);
-  function loop(){
-    const tabs = JSON.parse(localStorage.getItem('flightTabs') || '[]');
-    tabs.forEach(id => {
-      const data = JSON.parse(localStorage.getItem('tab-'+id) || '{}');
-      _updateTabCD(id, data);
-    });
-    _tabCDRaf = requestAnimationFrame(loop);
-  }
-  _tabCDRaf = requestAnimationFrame(loop);
-}
-
-
 function getTabFlightKey(tabId){
   try{
+    const d = JSON.parse(localStorage.getItem('tab-'+tabId) || '{}');
     const meta = d?.akMeta;
     if(meta?.id) return `AK_${meta.id}`;
     const date = (d.Date||'').replaceAll('-','');
@@ -4512,7 +4130,11 @@ function switchTab(id){
   // Recharger le bloc note pour le nouvel onglet
   window.bnReloadTab?.();
 
+  // Libérer le lock de l'ancien onglet, demander le lock du nouveau
+  releaseLock();
   window._cancelPremierEmbRefresh?.();
+  setReadonlyMode(false); // reset — le lockStatus du nouvel onglet remet si besoin
+  setTimeout(() => requestLock(), 800);
 
   renderTabs();
   refreshUIForTabs();
@@ -4574,10 +4196,46 @@ function deleteTab(id, deleteRemote = false){
   // Récupérer les métadonnées AVANT suppression pour nettoyer le cache RZA
   const _tabDataBeforeDelete = JSON.parse(localStorage.getItem('tab-'+id) || '{}');
 
-  // Fermeture locale
+  if(deleteRemote){
+    // Supprimer les données du DO (l'autre tablette sera déconnectée)
+    const WS_BASE = 'wss://turnaround-sync.deruellehugo-49c.workers.dev/';
+    const tabData = JSON.parse(localStorage.getItem('tab-'+id) || '{}');
+    const deleteKey = tabData?.akMeta?.id ? `AK_${tabData.akMeta.id}` : (id === currentTabId ? buildFlightKey() : null);
+    if(deleteKey){
+      const fid = String(tabData?.akMeta?.id || '').trim();
+      const lid = String(tabData?.akMeta?.linkedId || '').trim();
+      const deleteDashKey = (fid && lid) ? (fid < lid ? fid : lid) : fid || null;
+      const deleteMsg = JSON.stringify({ __delete: '1', ...(deleteDashKey ? { __dashboardKey: deleteDashKey } : {}) });
+      if(id === currentTabId && socket && socket.readyState === WebSocket.OPEN){
+        socket.send(deleteMsg);
+        setTimeout(() => { try{ socket.close(); socket = null; currentSocketKey = null; }catch(_){} }, 100);
+      } else {
+        try{
+          const ws = new WebSocket(WS_BASE + encodeURIComponent(deleteKey));
+          ws.onopen = () => { ws.send(deleteMsg); setTimeout(()=>{ try{ ws.close(); }catch(_){} }, 300); };
+          ws.onerror = () => {};
+        }catch(_){}
+      }
+      const linkedKey = tabData?.akMeta?.linkedId ? `AK_${tabData.akMeta.linkedId}` : null;
+      if(linkedKey && linkedKey !== deleteKey){
+        try{
+          const ws2 = new WebSocket(WS_BASE + encodeURIComponent(linkedKey));
+          ws2.onopen = () => { ws2.send(deleteMsg); setTimeout(()=>{ try{ ws2.close(); }catch(_){} }, 300); };
+          ws2.onerror = () => {};
+        }catch(_){}
+      }
+    }
+  }
+
+  // Fermeture locale — déconnecter le socket proprement
   if(id === currentTabId){
     clearTimeout(window._sendFullDebounce);
     clearTimeout(saveTimer); saveTimer = null;
+    if(socket && !deleteRemote){
+      try{ socket.close(); }catch(_){}
+      socket = null;
+      currentSocketKey = null;
+    }
   }
 
   let tabs = JSON.parse(localStorage.getItem('flightTabs') || '[]');
@@ -4770,6 +4428,12 @@ function loadTabData(id){
     unlockScroll?.();
   }
 
+  connectFlightSocket();
+
+  clearTimeout(window._sendFullDebounce);
+  window._sendFullDebounce = setTimeout(() => {
+    sendFullFlightState();
+  }, 2000);
 }
   
 function updateTabLabelInstant(){ saveCurrentTabData(); renderTabs(); }
@@ -5004,7 +4668,7 @@ function updateAllCalculations() {
 function updateDelayBands(){
   const pairs = [
     { actual: 'AIBT', planned: 'SIBT', wrap: 'tw-disp-AIBT' },
-    { actual: 'AOBT', planned: 'SOBT', wrap: 'tw-disp-AOBT' }
+    { actual: 'AOBT', planned: 'EOBT', wrap: 'tw-disp-AOBT' }
   ];
 
   pairs.forEach(({ actual, planned, wrap }) => {
@@ -5016,7 +4680,15 @@ function updateDelayBands(){
     disp.style.boxShadow = '';
 
     const aVal = document.getElementById(actual)?.value || '';
-    const pVal = document.getElementById(planned)?.value || '';
+    // Pour EOBT : lire la valeur calculée (timer-eobt div) si planned='EOBT'
+    let pVal = '';
+    if(planned === 'EOBT'){
+      const eobtDiv = document.getElementById('timer-eobt');
+      pVal = (eobtDiv?.textContent || '').trim();
+      if(pVal === '--:--' || pVal === '') pVal = '';
+    } else {
+      pVal = document.getElementById(planned)?.value || '';
+    }
 
     if(!aVal || !pVal) return;
 
@@ -5533,9 +5205,10 @@ function setTimeModeUTC(enable, fromInit=false){
   const timerCtot2 = document.getElementById('timer-ctot');
   if(ctotEl2 && timerCtot2) timerCtot2.textContent = ctotEl2.value || '--:--';
 
-  // 🔁 refresh liste si visible
-  const _ls = document.getElementById('listeScreen');
-  if(_ls && _ls.style.display === 'flex') renderListeBody();
+  // 🔁 refresh flight list AK si ouverte
+  if(document.getElementById('akPopover')?.style.display !== 'none'){
+    loadAKFlights();
+  }
 }
 
 /* Popup */
@@ -5849,9 +5522,13 @@ function renderTimeline(){
     const bar = document.createElement('div');
     bar.className = `tl-range ${d.cls}`;
     if(d.color){ bar.style.setProperty('--c', d.color); }
+
+    // ✅ position au CENTRE de la barre (évite le décalage / sortie de timeline)
     bar.style.left  = `${leftStartPct + widthPct/2}%`;
     bar.style.width = `${widthPct}%`;
     bar.style.top   = `${downStart + d.lane*DUR_LANE_H}px`;
+
+    // ✅ centrage X + Y
     bar.style.transform = 'translate(-50%, -50%)';
 
     canvas.appendChild(bar);
@@ -5977,9 +5654,40 @@ const AK_PROXY = "/ak";
 // Ouvrir/Fermer
 let _rzaMapPollTimer = null;
 
-/* openAKPicker → goToListe */
-function openAKPicker(){ goToListe(); }
-function closeAKPicker(){}
+function openAKPicker(){
+  const b = document.getElementById('akBackdrop');
+  const p = document.getElementById('akPopover');
+  const flowSel = document.getElementById('akFlow');
+
+  if(flowSel) flowSel.value = 'DEP';
+
+  document.body.classList.add('ak-open');   // ✅ AJOUT
+
+  if(b) b.style.display = '';
+  if(p) p.style.display = 'flex';
+  loadAKFlights();
+
+  // Poll rzamap toutes les 8s tant que le panneau est ouvert
+  clearInterval(_rzaMapPollTimer);
+  _rzaMapPollTimer = setInterval(async () => {
+    await fetchRzaMap();
+    if (window._lastAKPairs) renderAKList(window._lastAKPairs);
+  }, 8000);
+}
+
+function closeAKPicker(){
+  const b = document.getElementById('akBackdrop');
+  const p = document.getElementById('akPopover');
+
+  if(p) p.style.display = 'none';
+  if(b) b.style.display = 'none';
+
+  document.body.classList.remove('ak-open'); // ✅ AJOUT
+
+  // Arrêter le poll
+  clearInterval(_rzaMapPollTimer);
+  _rzaMapPollTimer = null;
+}
 
 async function fetchAK(flow, from, to) {
   const url =
@@ -6178,7 +5886,6 @@ async function loadAKFlights(){
 
     if(st) st.textContent = pairs.length + ' vol(s)';
     renderAKList(pairs);
-    renderListeBody(); // ← mise à jour de l'écran liste
 
   }catch(e){
     if(st) st.textContent = `Erreur (${String(e.message || e)})`;
@@ -6560,18 +6267,70 @@ async function refreshAKTab(tabId){
 }
 
 function applyAKFlight(f, flow, opts = {}){
+  const isRefresh = !!opts.refresh;
+
+  // Si nouvelle sélection (pas refresh) → demander RZA d'abord
+  if(!isRefresh){
+    // Stocker le vol en attente et ouvrir le popup RZA
+    window._pendingAKFlight = { f, flow, opts };
+    openRZAModalForAK();
+    return;
+  }
+
   _doApplyAKFlight(f, flow, opts);
 }
 
-/* openRZAModalForAK supprimé */
+function openRZAModalForAK(){
+  const back  = document.getElementById('rzaBackdrop');
+  const modal = document.getElementById('rzaModal');
+  const inp   = document.getElementById('rzaModalInput');
+  const title = document.querySelector('#rzaModal .card-header-title');
 
+  if(title) title.textContent = 'Votre identifiant (RZA)';
+  if(back) back.style.display = '';
+  if(modal) modal.style.display = 'flex';
+
+  let current = '';
+  try{
+    if(currentTabId){
+      const data = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
+      current = (data.RZA || '').toUpperCase().trim();
+    }
+  }catch(e){}
+
+  if(inp){
+    inp.value = current;
+    inp.focus();
+    inp.select();
+    inp.oninput = ()=>{
+      inp.value = (inp.value || '').toUpperCase().replace(/[^A-Z]/g,'').slice(0,3);
+      const ok = inp.value.length >= 2;
+      const help = document.getElementById('rzaHelp');
+      if(help) help.style.display = ok ? 'none' : '';
+    };
+    inp.oninput();
+  }
+
+  // Remplacer temporairement submitRZAModal pour ce contexte
+  window._rzaContext = 'ak';
+}
 
 function _doApplyAKFlight(f, flow, opts = {}){
   const isRefresh = !!opts.refresh;
 
-  // Créer un nouvel onglet si nouvelle sélection
+  // Créer un nouvel onglet seulement si c'est une nouvelle sélection
   if(!isRefresh){
     createNewTab();
+    // Injecter le RZA dans le nouvel onglet (currentTabId vient d'être mis à jour)
+    if(window._pendingRZA && currentTabId){
+      const data = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
+      data.RZA = window._pendingRZA;
+      localStorage.setItem('tab-'+currentTabId, JSON.stringify(data));
+      window._pendingRZA = null;
+    }
+    // ✅ Réinitialiser le readonly — nouveau vol = nouvelle session
+    setReadonlyMode(false);
+    window._hasLock = false;
   }
 
   try{
@@ -6734,13 +6493,34 @@ function _doApplyAKFlight(f, flow, opts = {}){
     updateAllCalculations();
     updateTabLabelInstant();
 
-    /* détection doublon WS supprimée */
+    // ✅ Détecter si un autre onglet a le même vol et le fermer
+    try{
+      const myKey = buildFlightKey();
+      if(myKey){
+        const tabs = JSON.parse(localStorage.getItem('flightTabs') || '[]');
+        for(const tid of tabs){
+          if(tid === currentTabId) continue;
+          const otherKey = getTabFlightKey(tid);
+          if(otherKey === myKey){
+            // Même vol déjà ouvert : supprimer l'autre onglet silencieusement
+            localStorage.removeItem('tab-' + tid);
+            const updated = tabs.filter(t => t !== tid);
+            localStorage.setItem('flightTabs', JSON.stringify(updated));
+            renderTabs();
+            break;
+          }
+        }
+      }
+    }catch(_){}
 
   }catch(e){
     showPopup(`Erreur import AK (${String(e.message || e)})`, "#ef4444", 2200);
   }finally{
     // ✅ fermeture auto du picker après sélection (sauf refresh)
     if(!isRefresh){
+      closeAKPicker();
+      const flowSel = document.getElementById('akFlow');
+      if(flowSel) flowSel.value = 'DEP';
       showPopup("Vol importé", "#16a34a", 1600);
       // Basculer sur l'onglet DÉPART si FROM=BVA, sinon ARRIVÉE
       if(typeof switchTimingPanel === 'function'){
@@ -6750,987 +6530,239 @@ function _doApplyAKFlight(f, flow, opts = {}){
     }
   }
 
-}
-
-/* lock system supprimé */
-
-function openRZAModalForAK(){ /* no-op */ }
-function openRZAModal(){ saveAndValidate(); }
-function closeRZAModal(){ }
-function submitRZAModal(){ saveAndValidate(); }
-function forceTakeLock(){}
-function setupRealtimeSync(){}
-function sendFieldUpdate(){}
-function sendFullFlightState(){}
-
-function openCloseAllModal(){
-  document.getElementById('closeAllModal').style.display = 'flex';
-}
-
-function saveAndValidate(){
-  saveCurrentTabData();
-  showPopup("Sauvegardé ✓", "#16a34a", 1400);
-}
-
-function twSync(id){
-  const inp  = document.getElementById(id);
-  const disp = document.getElementById('tw-disp-' + id);
-  if(!inp || !disp) return;
-  disp.textContent = inp.value || '--:--';
-}
-
-/* ===== TIME WRAP gestures — now / ±1 / long-press edit / double-tap clear ===== */
-(function(){
-  const LONG_MS = 600;
-  const DBL_MS  = 320;
-  const s = {};
-
-  function st(id){ if(!s[id]) s[id]={t:null,fired:false,last:0}; return s[id]; }
-
-  function openEdit(id){
-    const wrap = document.querySelector(`.time-wrap[data-id="${id}"]`);
-    const inp  = document.getElementById(id);
-    const disp = document.getElementById('tw-disp-'+id);
-    if(!wrap||!inp||!disp) return;
-    if(document.querySelector('.tw-editor[data-for="'+id+'"]')) return;
-
-    const rect = wrap.getBoundingClientRect();
-    const ed = document.createElement('input');
-    ed.type='text'; ed.className='input tw-editor';
-    ed.setAttribute('data-for', id);
-    ed.value=inp.value||''; ed.placeholder='HH:MM';
-    ed.maxLength=5; ed.inputMode='numeric';
-    ed.setAttribute('enterkeyhint','done');
-
-    function positionEditor(){
-      const r = wrap.getBoundingClientRect();
-      const vv = window.visualViewport;
-      const ot = vv ? vv.offsetTop  : 0;
-      const ol = vv ? vv.offsetLeft : 0;
-      ed.style.top  = (r.top  + ot) + 'px';
-      ed.style.left = (r.left + ol) + 'px';
-      ed.style.width  = r.width  + 'px';
-      ed.style.height = r.height + 'px';
-    }
-
-    ed.style.cssText = `position:fixed;top:${rect.top}px;left:${rect.left}px;
-      width:${rect.width}px;height:${rect.height}px;z-index:9999;
-      text-align:center;font-weight:900;font-size:1rem;
-      border-radius:var(--radius);background:var(--card);color:var(--text);
-      border:2px solid #3273dc;padding:0;box-sizing:border-box;`;
-    disp.style.visibility = 'hidden';
-    document.body.appendChild(ed);
-
-    if(window.visualViewport){
-      window.visualViewport.addEventListener('resize', positionEditor);
-      window.visualViewport.addEventListener('scroll', positionEditor);
-    }
-    setTimeout(()=>{ ed.focus(); ed.select(); }, 30);
-
-    let done = false;
-    function commit(){
-      if(done) return; done = true;
-      const m = (ed.value.trim()).match(/^(\d{1,2}):?(\d{2})$/);
-      if(m){
-        const hh=m[1].padStart(2,'0'), mm=m[2];
-        if(+hh<24 && +mm<60){
-          inp.value = hh+':'+mm;
-          inp.dispatchEvent(new Event('change',{bubbles:true}));
-          twSync(id); updateAllCalculations();
-        }
-      }
-      ed.remove(); disp.style.visibility = '';
-      if(window.visualViewport){
-        window.visualViewport.removeEventListener('resize', positionEditor);
-        window.visualViewport.removeEventListener('scroll', positionEditor);
-      }
-    }
-    ed.addEventListener('blur', commit);
-    ed.addEventListener('keydown', e => {
-      if(e.key==='Enter'){ e.preventDefault(); commit(); }
-      if(e.key==='Escape'){ done=true; ed.remove(); disp.style.visibility=''; }
-    });
-  }
-
-  function clearVal(id){
-    const inp = document.getElementById(id); if(!inp) return;
-    inp.value = '';
-    inp.dispatchEvent(new Event('change',{bubbles:true}));
-    twSync(id); updateAllCalculations();
-  }
-
-  /* Zone click : −1 / now / +1 */
-  document.addEventListener('click', function(e){
-    const zone = e.target.closest('.tw-zone');
-    if(!zone) return;
-    if(zone.classList.contains('tw-sched-zone')) return;
-    const wrap = zone.closest('.time-wrap'); if(!wrap) return;
-    const id = wrap.dataset.id; if(!id) return;
-    if(_touchHandled && (zone.classList.contains('tw-zone-left')||zone.classList.contains('tw-zone-right'))) return;
-    const action = zone.dataset.action;
-    if(action==='minus') adjustTime(id,-1);
-    else if(action==='plus') adjustTime(id,1);
-    else if(action==='now') setNow(id);
-    updateAllCalculations(); twSync(id);
-    if(window.getSelection) window.getSelection().removeAllRanges();
-  });
-
-  /* Long-press & double-tap — zone centre */
-  function onStart(id){ const o=st(id); o.fired=false; clearTimeout(o.t); o.t=setTimeout(()=>{ o.fired=true; openEdit(id); },LONG_MS); }
-  function onEnd(id){ const o=st(id); clearTimeout(o.t); if(o.fired) return; const now=Date.now(); if(now-o.last<DBL_MS){ o.last=0; clearVal(id); } else { o.last=now; } }
-  function onCancel(id){ clearTimeout(st(id).t); }
-
-  document.addEventListener('touchstart', function(e){
-    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
-    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
-    onStart(id);
-  },{passive:true});
-
-  let _touchHandled = false;
-  document.addEventListener('touchend', function(e){
-    const zone=e.target.closest('.tw-zone-left, .tw-zone-right');
-    if(!zone||zone.classList.contains('tw-sched-zone')) return;
-    const wrap=zone.closest('.time-wrap'); if(!wrap) return;
-    const id=wrap.dataset.id; if(!id) return;
-    const action=zone.dataset.action;
-    if(action==='minus') adjustTime(id,-1);
-    else if(action==='plus') adjustTime(id,1);
-    updateAllCalculations(); twSync(id);
-    if(window.getSelection) window.getSelection().removeAllRanges();
-    _touchHandled=true; setTimeout(()=>{ _touchHandled=false; },400);
-  },{passive:true});
-
-  document.addEventListener('touchend', function(e){
-    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
-    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
-    onEnd(id);
-  },{passive:true});
-
-  document.addEventListener('touchmove', function(e){
-    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
-    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
-    onCancel(id);
-  },{passive:true});
-
-  /* Desktop : long mousedown = éditer, dblclick = effacer */
-  let mTimer=null;
-  document.addEventListener('mousedown', function(e){
-    if(e.button!==0) return;
-    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
-    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
-    const o=st(id); o.fired=false;
-    mTimer=setTimeout(()=>{ o.fired=true; openEdit(id); },LONG_MS);
-  });
-  document.addEventListener('mouseup',  function(){ clearTimeout(mTimer); mTimer=null; });
-  document.addEventListener('dblclick', function(e){
-    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
-    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
-    clearVal(id);
-  });
-})();
-
-
-function twSyncAll(){
-  document.querySelectorAll('.time-wrap').forEach(w => {
-    const id = w.dataset.id;
-    if(id) twSync(id);
-  });
-}
-
-function confirmCloseAll(){
-  document.getElementById('closeAllModal').style.display = 'none';
-  clearTimeout(window._sendFullDebounce);
-  clearTimeout(saveTimer); saveTimer = null;
-  localStorage.clear();
-  location.reload();
-}
-
-function clearAutoSave(){ confirmCloseAll(); }
-
-function delayMinsFromHHMM(planned, actual){
-  if(!planned || !actual) return null;
-  const toMin = s => { const [h,m] = s.split(':').map(Number); return h*60+m; };
-  let diff = toMin(actual) - toMin(planned);
-  if(diff < -720) diff += 1440;
-  if(diff > 720)  diff -= 1440;
-  return diff;
-}
-
-function updateIVBadges(){
-  const sibt = document.getElementById('SIBT')?.value || '';
-  const aibt = document.getElementById('AIBT')?.value || '';
-  const sobt = document.getElementById('SOBT')?.value || '';
-  const aobt = document.getElementById('AOBT')?.value || '';
-  function renderBadge(el, mins){ if(!el) return; el.className=''; el.textContent=''; }
-  renderBadge(document.getElementById('ivBadgeArr'), delayMinsFromHHMM(sibt, aibt));
-  renderBadge(document.getElementById('ivBadgeDep'), delayMinsFromHHMM(sobt, aobt));
-}
-
-function checkAndDeleteIfEmpty(){ /* WS supprimé — no-op */ }
-
-function listGoToMesVols(){
-  const tabs = JSON.parse(localStorage.getItem('flightTabs') || '[]');
-  if(tabs.length > 0){
-    const lastId = localStorage.getItem('lastTabId') || tabs[tabs.length - 1];
-    goToVol(tabs.includes(lastId) ? lastId : tabs[tabs.length - 1]);
-  }
-}
-
-function listeNouveauVolManuel(){
-  createNewTab();
-  goToVol(currentTabId);
-}
-
-function goToListe(){
-  saveCurrentTabData();
-  const ls  = document.getElementById('listeScreen');
-  const hdr = document.getElementById('fixedHeader');
-  const ftr = document.getElementById('fixedFooter');
-  const lFab = document.getElementById('loadFab');
-  const sFab = document.getElementById('settingsFab');
-  if(ls)   ls.style.display  = 'flex';
-  if(hdr)  hdr.style.display = 'none';
-  if(ftr)  ftr.style.display = 'none';
-  if(lFab) lFab.style.display = 'none';
-  if(sFab) sFab.style.display = 'none';
-
-  // Mettre à jour le bouton MES VOLS immédiatement (sans attendre l'AK)
-  _updateListeBtnsMesVols();
-
-  listeRefresh();
-}
-
-function _updateListeBtnsMesVols(){
-  const tabs = JSON.parse(localStorage.getItem('flightTabs') || '[]');
-  const btn = document.getElementById('listeBtnMesVols');
-  if(btn){
-    btn.style.display = tabs.length > 0 ? '' : 'none';
-    btn.textContent = `MES VOLS (${tabs.length}) →`;
-  }
-  const sub = document.getElementById('listeSubtitle');
-  if(sub){
-    const n = (window._lastAKPairs||[]).length;
-    sub.textContent = `${n > 0 ? n + ' vol' + (n>1?'s':'') : 'BVA'} · ${tabs.length} suivi${tabs.length>1?'s':''}`;
-  }
-}
-
-function goToVol(tabId){
-  // Retirer le style inline → le CSS body.has-tab reprend la main (display:none)
-  const ls  = document.getElementById('listeScreen');
-  const hdr = document.getElementById('fixedHeader');
-  const ftr = document.getElementById('fixedFooter');
-  const lFab = document.getElementById('loadFab');
-  const sFab = document.getElementById('settingsFab');
-  if(ls)   ls.style.display  = '';   // retire l'inline, CSS reprend
-  if(hdr)  hdr.style.display = '';
-  if(ftr)  ftr.style.display = '';
-  if(lFab) lFab.style.display = '';
-  if(sFab) sFab.style.display = '';
-  if(tabId) switchTab(tabId);
-  const btn = document.getElementById('btnGoListe');
-  if(btn) btn.style.display = '';
-}
-
-/* ── Palette CIE ── */
-const CIE_COLORS = {FR:'#073590',W6:'#C6007E',AF:'#002157',U2:'#FF6600',H4:'#0E3B92',RK:'#0A4B7A',W4:'#1B68C5'};
-const CIE_NAMES  = {FR:'Ryanair',W6:'Wizz Air',AF:'Air France',U2:'easyJet',H4:'Play',RK:'Malta Air',W4:'Wizz Malta'};
-
-/* ── Liste des vols (rendu) ── */
-let _listeFilter = 'ALL';
-let _listeSearch = '';
-
-function listeRefresh(){
-  const btn = document.getElementById('listeBtnRefresh');
-  if(btn){ btn.classList.add('is-loading'); btn.disabled = true; }
-  loadAKFlights().finally(()=>{
-    if(btn){ btn.classList.remove('is-loading'); btn.disabled = false; }
-  });
-}
-
-function listeApplyFilter(){
-  _listeSearch = (document.getElementById('listeSearch')?.value || '').toLowerCase();
-  renderListeBody();
-}
-
-function renderListeFilterBar(cies){
-  const bar = document.getElementById('listeFilterBar');
-  if(!bar) return;
-  bar.innerHTML = '';
-  ['ALL',...cies].forEach(c => {
-    const btn = document.createElement('button');
-    btn.className = 'button is-small' + (_listeFilter === c ? ' is-link' : ' is-light');
-    btn.style.cssText = 'border-radius:999px;font-weight:700;font-size:.75rem;letter-spacing:.5px;';
-    btn.textContent = c;
-    btn.onclick = () => { _listeFilter = c; renderListeFilterBar(cies); renderListeBody(); };
-    bar.appendChild(btn);
-  });
-}
-
-function renderListeBody(){
-  const body = document.getElementById('listeBody');
-  if(!body) return;
-
-  const pairs = window._lastAKPairs || [];
-  const tabs  = JSON.parse(localStorage.getItem('flightTabs') || '[]');
-
-  // Toujours mettre à jour subtitle + bouton MES VOLS en premier
-  _updateListeBtnsMesVols();
-  const sub = document.getElementById('listeSubtitle');
-  if(sub) sub.textContent = `${pairs.length} vol${pairs.length>1?'s':''} · ${tabs.length} suivi${tabs.length>1?'s':''}`;
-
-  /* Pour chaque paire, on crée une entrée :
-     - Vol affiché = DEP (departing) s'il existe, sinon ARR
-     - Infos ARR (SIBT) et DEP (SOBT) affichées ensemble */
-  const items = pairs.map(p => {
-    const dep = p.dep || null;
-    const arr = p.arr || null;
-    // Vol principal = DEP, sinon ARR
-    const main = dep || arr;
-    const ff = (main?.fullFlightNumber || main?.callsign || '').toUpperCase();
-    const cieCode = ff.match(/^([A-Z0-9]{2})/)?.[1] || '';
-    return {
-      id: dep?.id || arr?.id,
-      flow: dep ? 'DEP' : 'ARR',
-      ff,
-      cieCode,
-      cieColor: CIE_COLORS[cieCode] || '#334155',
-      cieName:  CIE_NAMES[cieCode]  || cieCode,
-      reg:  (main?.reg || '').toUpperCase(),
-      ac:   (main?.acTypeIcao || main?.acTypeIata || '').toUpperCase(),
-      pkg:  (dep?.pkg || arr?.pkg || '').toString().replace(/^P/i,'').trim() || '—',
-      from: dep ? (arr?.adepIata || dep?.adepIata || '—').toUpperCase()
-                : (arr?.adepIata || '—').toUpperCase(),
-      to:   (dep?.adesIata || arr?.adesIata || '—').toUpperCase(),
-      sibt: fmtAKTime(arr?.sibt || arr?.eibt || ''),
-      sobt: fmtAKTime(dep?.sobt || dep?.eobt || ''),
-      dep, arr,
-    };
-  }).filter(it => it.ff); // garder uniquement les vols avec un numéro
-
-  // CIEs uniques pour la filter bar
-  const cies = [...new Set(items.map(it => it.cieCode).filter(Boolean))].sort();
-  renderListeFilterBar(cies);
-
-  // Appliquer filtres
-  const filtered = items.filter(it => {
-    if(_listeFilter !== 'ALL' && it.cieCode !== _listeFilter) return false;
-    if(_listeSearch){
-      const s = _listeSearch.toLowerCase();
-      if(!it.ff.toLowerCase().includes(s)
-        && !it.reg.toLowerCase().includes(s)
-        && !it.to.toLowerCase().includes(s)
-        && !it.from.toLowerCase().includes(s)) return false;
-    }
-    return true;
-  });
-
-  if(pairs.length === 0){
-    body.innerHTML = `<div style="padding:50px 20px;text-align:center;color:var(--muted);">
-      <div style="font-size:2rem;margin-bottom:12px;">✈︎</div>
-      <div style="font-family:var(--font-title);font-size:1.2rem;font-weight:700;letter-spacing:1px;">
-        CHARGEMENT EN COURS…</div>
-      <div style="font-size:.82rem;margin-top:6px;">Connexion au proxy AK</div>
-    </div>`;
-    // relancer dans 3s si toujours vide
-    setTimeout(() => { if((window._lastAKPairs||[]).length === 0) listeRefresh(); }, 3000);
-    return;
-  }
-
-  if(filtered.length === 0){
-    body.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted);font-weight:700;">Aucun vol trouvé</div>';
-  } else {
-    body.innerHTML = '';
-    filtered.forEach(it => {
-      // Suivi ?
-      const isSuivi = tabs.some(tid => {
+  // ✅ Synchro inter-appareils : reconnecter puis envoyer dès que le socket est prêt
+  setTimeout(() => {
+    try{ connectFlightSocket(); }catch(_){}
+    // Envoyer dès que OPEN, avec retry jusqu'à 5s
+    const tryPush = (attempts) => {
+      if(isApplyingRemoteUpdate) return;
+      if(socket && socket.readyState === WebSocket.OPEN && currentSocketKey){
         try{
-          const d = JSON.parse(localStorage.getItem('tab-'+tid) || '{}');
-          return String(d?.akMeta?.id) === String(it.dep?.id || it.arr?.id)
-              || String(d?.akMeta?.linkedId) === String(it.dep?.id || it.arr?.id)
-              || String(d?.akMeta?.id) === String(it.arr?.id)
-              || String(d?.akMeta?.id) === String(it.dep?.id);
-        }catch(_){ return false; }
-      });
-
-      const card = document.createElement('div');
-      card.className = 'flight-card' + (isSuivi ? ' is-suivi' : '');
-
-      const timesHtml = [
-        it.sibt ? `<div class="fc-time-block"><div class="fc-time-label">SIBT</div><div class="fc-time-val">${it.sibt}</div></div>` : '',
-        (it.sibt && it.sobt) ? `<div class="fc-arrow">→</div>` : '',
-        it.sobt ? `<div class="fc-time-block"><div class="fc-time-label">SOBT</div><div class="fc-time-val">${it.sobt}</div></div>` : '',
-      ].join('');
-
-      card.innerHTML = `
-        <div class="flight-card-stripe" style="background:${it.cieColor};"></div>
-        <div class="flight-card-inner">
-          <div class="flight-card-top">
-            <div class="fc-tail" style="background:${it.cieColor};">${it.cieCode}</div>
-            <div class="fc-info">
-              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
-                <div class="fc-flight-num">${it.ff}</div>
-                <div class="fc-route">${it.from} → ${it.to}</div>
-              </div>
-              <div style="display:flex;justify-content:space-between;margin-top:2px;">
-                <div class="fc-airline">${it.cieName}</div>
-                <div class="fc-reg-type">${it.reg}${it.ac ? ' · ' + it.ac : ''}</div>
-              </div>
-            </div>
-          </div>
-          <div class="flight-card-bottom">
-            <div class="fc-times">${timesHtml}</div>
-            <div class="fc-parking">
-              <div class="fc-pk-label">PK</div>
-              <div class="fc-pk-val">${it.pkg}</div>
-            </div>
-            <button class="fc-suivi-btn ${isSuivi ? 'is-suivi' : 'is-not-suivi'}"
-                    data-depid="${it.dep?.id||''}" data-arrid="${it.arr?.id||''}" data-flow="${it.flow}"
-                    onclick="event.stopPropagation(); listeSuivreToggle(this)"
-                    type="button">
-              ${isSuivi ? '✓ SUIVI' : '+ SUIVRE'}
-            </button>
-          </div>
-        </div>`;
-
-      // Clic sur la carte → ouvrir l'onglet si suivi
-      card.addEventListener('click', () => {
-        if(!isSuivi) return;
-        const tid = tabs.find(t => {
-          try{
-            const d = JSON.parse(localStorage.getItem('tab-'+t) || '{}');
-            const mid = d?.akMeta?.id;
-            const lid = d?.akMeta?.linkedId;
-            return [String(it.dep?.id), String(it.arr?.id)].includes(String(mid))
-                || [String(it.dep?.id), String(it.arr?.id)].includes(String(lid));
-          }catch(_){ return false; }
-        });
-        if(tid) goToVol(tid);
-      });
-
-      body.appendChild(card);
-    });
-  }
-
-  // Mise à jour subtitle + bouton MES VOLS déjà faite en haut
+          const fullPayload = collectFlightState();
+          if(fullPayload && typeof fullPayload === 'object'){
+            fullPayload['__fromAK'] = '1';
+            socket.send(JSON.stringify(fullPayload));
+          }
+          // Demander le lock juste après l'envoi du state
+          setTimeout(() => requestLock(), 200);
+        }catch(e){ console.warn('AK sync send error:', e); }
+        return;
+      }
+      if(attempts > 0) setTimeout(() => tryPush(attempts - 1), 300);
+    };
+    tryPush(10); // jusqu'à 5s de retry
+  }, 50);
 }
 
-function fmtAKTime(iso){
-  if(!iso) return '';
+/* ─── SYSTÈME DE VERROUILLAGE ────────────────────────────────────────────── */
+window._hasLock = false;
+window._lockOwner = null;
+
+function setReadonlyMode(enabled, ownerRza){
+  if(enabled){
+    document.body.classList.add('readonly-mode');
+    window._lockOwner = ownerRza || '???';
+    const banner = document.getElementById('readonlyBanner');
+    const ownerEl = document.getElementById('readonlyOwner');
+    if(ownerEl) ownerEl.textContent = window._lockOwner;
+    if(banner) banner.style.display = '';
+  } else {
+    document.body.classList.remove('readonly-mode');
+    window._lockOwner = null;
+    const banner = document.getElementById('readonlyBanner');
+    if(banner) banner.style.display = 'none';
+  }
+}
+
+function getRZAForLock(){
   try{
-    const d = new Date(iso);
-    if(isNaN(d)) return iso;
-    if(typeof isUTC !== 'undefined' && isUTC){
-      return String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');
+    if(currentTabId){
+      const data = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
+      const rza = (data.RZA || '').toUpperCase().trim();
+      console.log('[Lock] getRZAForLock → tabId=', currentTabId, 'rza=', rza);
+      return rza;
     }
-    return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
-  }catch(_){ return iso; }
+  }catch(e){}
+  console.log('[Lock] getRZAForLock → pas de tabId');
+  return '';
 }
 
-function listeSuivreToggle(btnEl){
-  const depId = btnEl.dataset.depid || '';
-  const arrId = btnEl.dataset.arrid || '';
-  const flow  = btnEl.dataset.flow  || 'DEP';
+function requestLock(){
+  const rza = getRZAForLock();
+  if(!rza){ console.log('[Lock] requestLock annulé — RZA vide'); return; }
+  if(!socket || socket.readyState !== WebSocket.OPEN){ console.log('[Lock] requestLock annulé — socket pas open, state=', socket?.readyState); return; }
+  console.log('[Lock] requestLock → envoi __takeLock pour', rza);
+  socket.send(JSON.stringify({ __takeLock: rza }));
+}
 
-  const tabs = JSON.parse(localStorage.getItem('flightTabs') || '[]');
-  const existingTab = tabs.find(t => {
-    try{
-      const d = JSON.parse(localStorage.getItem('tab-'+t) || '{}');
-      const mid = String(d?.akMeta?.id  || '');
-      const lid = String(d?.akMeta?.linkedId || '');
-      return [depId, arrId].includes(mid) || [depId, arrId].includes(lid);
-    }catch(_){ return false; }
-  });
+function forceTakeLock(){
+  const rza = getRZAForLock();
 
-  if(existingTab){
-    goToVol(existingTab);
+  // Si RZA vide → demander d'abord le RZA
+  if(!rza){
+    closeLockModal();
+    window._rzaContext = 'forceLock';
+    openRZAModalForAK();
     return;
   }
 
-  // Nouveau suivi
-  const akId = flow === 'DEP' ? depId : arrId;
-  const f = window._akFlightById && window._akFlightById[akId];
-  if(!f){
-    showPopup("Vol introuvable dans le cache", "#ef4444", 1600);
+  // Si socket pas prêt → reconnecter et réessayer
+  if(!socket || socket.readyState !== WebSocket.OPEN){
+    showPopup('Reconnexion en cours…', '#f59e0b', 1500);
+    connectFlightSocket();
+    setTimeout(() => {
+      if(socket && socket.readyState === WebSocket.OPEN){
+        socket.send(JSON.stringify({ __forceLock: rza }));
+      } else {
+        showPopup('Impossible de reprendre — connexion échouée', '#ef4444', 2500);
+      }
+    }, 1500);
     return;
   }
-  _doApplyAKFlight(f, flow, {});
-  saveCurrentTabData();
-  setTimeout(() => goToVol(currentTabId), 150);
+
+  console.log('[Lock] forceTakeLock → envoi __forceLock pour', rza);
+  socket.send(JSON.stringify({ __forceLock: rza }));
 }
 
-
-/* ── Fonctions restaurées ── */
-function bnDrawStroke(s, c){
-    if(!c || s.pts.length < 1) return;
-    c.save();
-    if(s.tool === 'eraser-stroke'){
-      c.globalCompositeOperation = 'source-over';
-      c.strokeStyle = 'rgba(200,200,200,0.5)';
-      c.lineWidth   = 18;
-      c.setLineDash([4,4]);
-    } else {
-      c.globalCompositeOperation = 'source-over';
-      c.strokeStyle = s.color;
-      c.lineWidth   = s.size;
-      c.setLineDash([]);
-      c.lineCap     = 'round';
-      c.lineJoin    = 'round';
-    }
-    c.beginPath();
-    c.moveTo(s.pts[0].x, s.pts[0].y);
-    for(let i=1; i<s.pts.length; i++) c.lineTo(s.pts[i].x, s.pts[i].y);
-    c.stroke();
-    c.restore();
-  }
-
-function bnEnd(e){
-    if(!_drawing || !_current) return;
-    _drawing = false;
-    if(_tool === 'eraser-stroke'){
-      // Supprimer les traits qui intersectent le chemin de gomme
-      const erasePts = _current.pts;
-      _strokes = _strokes.filter(s => !bnStrokeIntersects(s, erasePts));
-    } else if(_current.pts.length > 0){
-      _strokes.push(_current);
-    }
-    _current = null;
-    bnRedraw();
-    bnSave();
-  }
-
-function bnInit(){
-    const c = canvas();
-    if(!c || _bnReady) return;
-
-    // Attendre que le canvas soit visible et ait une taille
-    const w = c.offsetWidth || c.closest('.card-content')?.offsetWidth || 300;
-    if(w === 0){
-      setTimeout(bnInit, 100);
-      return;
-    }
-
-    _bnReady = true;
-
-    // Taille responsive — haute résolution (devicePixelRatio)
-    function resize(){
-      const dpr = window.devicePixelRatio || 1;
-      const parent = c.parentElement || c.closest('.card-content');
-      const cw  = (parent?.clientWidth || c.offsetWidth || 300);
-      const h   = Math.round(cw * 0.45);
-      const pw  = Math.round(cw * dpr);
-      const ph  = Math.round(h * dpr);
-      if(c.width !== pw || c.height !== ph){
-        c.width  = pw;
-        c.height = ph;
-        c.style.width  = cw + 'px';
-        c.style.height = h  + 'px';
-        const g = ctx();
-        if(g) g.setTransform(dpr, 0, 0, dpr, 0, 0);
-        bnRedraw();
-      }
-    }
-    new ResizeObserver(()=>requestAnimationFrame(resize)).observe(c);
-    resize();
-
-    // Charger depuis storage
-    _historyKey = 'bnCanvas_' + (currentTabId||'default');
-    bnLoad();
-
-    // Événements pointer (stylet + doigt + souris)
-    c.addEventListener('pointerdown', e=>{ e.preventDefault(); bnStart(e); }, {passive:false});
-    c.addEventListener('pointermove', e=>{ e.preventDefault(); bnMove(e);  }, {passive:false});
-    c.addEventListener('pointerup',   e=>{ e.preventDefault(); bnEnd(e);   }, {passive:false});
-    c.addEventListener('pointerleave',e=>{ bnEnd(e); }, {passive:false});
-    // Empêcher menu contextuel et sélection sur appui long (mobile)
-    c.addEventListener('contextmenu', e=>{ e.preventDefault(); }, {passive:false});
-    c.addEventListener('selectstart',  e=>{ e.preventDefault(); }, {passive:false});
-  }
-
-function bnLoad(){
-    _historyKey = 'bnCanvas_' + (currentTabId||'default');
-    try{
-      const raw = localStorage.getItem(_historyKey);
-      const elRaw = document.getElementById('BlocNote')?.value || '';
-      const source = raw || elRaw;
-      if(source) _strokes = JSON.parse(source);
-      else        _strokes = [];
-    }catch(e){ _strokes=[]; }
-    setTimeout(bnRedraw, 50);
-  }
-
-function bnMove(e){
-    if(!_drawing || !_current) return;
-    _current.pts.push(bnPt(e));
-    bnRedraw();
-    // Dessine le trait en cours
-    bnDrawStroke(_current, ctx());
-  }
-
-function bnPt(e){
-    const c = canvas();
-    const r = c.getBoundingClientRect();
-    // Pas de multiplication DPR ici — on travaille en CSS pixels, le scale() du ctx s'en charge
-    return { x: e.clientX - r.left, y: e.clientY - r.top };
-  }
-
-function bnRedraw(){
-    const c2 = canvas(); const g = ctx();
-    if(!c2||!g) return;
-    const dpr = window.devicePixelRatio || 1;
-    g.setTransform(dpr, 0, 0, dpr, 0, 0);
-    g.clearRect(0, 0, c2.width / dpr, c2.height / dpr);
-    _strokes.forEach(s => bnDrawStroke(s, g));
-  }
-
-function bnSave(){
-    if(!_historyKey) return;
-    try{
-      const data = JSON.stringify(_strokes);
-      localStorage.setItem(_historyKey, data);
-      // Sync WebSocket — forcer via twSync directement
-      const el = document.getElementById('BlocNote');
-      if(el){
-        el.value = data;
-        // twSync est défini globalement
-        if(typeof twSync === 'function') twSync('BlocNote');
-      }
-    }catch(e){}
-  }
-
-function bnStart(e){
-    _drawing = true;
-    const pt = bnPt(e);
-    if(_tool === 'eraser-stroke'){
-      _current = { tool:'eraser-stroke', pts:[pt] };
-    } else {
-      const color = document.getElementById('bnColor')?.value || '#1e3a8a';
-      const size  = parseInt(document.getElementById('bnSize')?.value || '3', 10);
-      _current = { tool:'pen', color, size, pts:[pt] };
-    }
-  }
-
-function bnStrokeIntersects(stroke, erasePts){
-    const threshold = 18;
-    for(const ep of erasePts){
-      for(const sp of stroke.pts){
-        const dx = ep.x - sp.x, dy = ep.y - sp.y;
-        if(dx*dx + dy*dy < threshold*threshold) return true;
-      }
-    }
-    return false;
-  }
-
-function clearVal(id){
-    const inp=document.getElementById(id); if(!inp) return;
-    inp.value='';
-    inp.dispatchEvent(new Event('change',{bubbles:true}));
-    twSync(id); updateAllCalculations();
-    // Forcer l'envoi direct via socket (bypass isApplyingRemoteUpdate)
-    _recentlyEdited.delete(id);
-    const patch = { [id]: '' };
-    if(socket && socket.readyState === WebSocket.OPEN && currentSocketKey){
-      socket.send(JSON.stringify(patch));
-    }
-  }
-
-function closeAllPopups(){
-  // FUEL
-  closeFuelMenu?.();
-
-  // LOAD (LDM)
-  closeLDM?.();
-
-  // SETTINGS
-  closeSettingsMenu?.();
-
-  // AK
-  closeAKPicker?.();
-
-  // RZA
-  closeRZAModal?.(false);
+function releaseLock(){
+  window._hasLock = false;
+  if(!socket || socket.readyState !== WebSocket.OPEN) return;
+  socket.send(JSON.stringify({ __releaseLock: '1' }));
 }
 
-function closeFuelMenu(){
-  const b = document.getElementById('fuelBackdrop');
-  const m = document.getElementById('fuelMenu');
-  if(m) m.style.display = 'none';
-  if(b) b.style.display = 'none';
+function showLockModal(rza, ts){
+  const backdrop = document.getElementById('lockBackdrop');
+  const modal    = document.getElementById('lockModal');
+  const rzaEl    = document.getElementById('lockModalRza');
+  if(rzaEl) rzaEl.textContent = rza || '???';
+  if(backdrop) backdrop.style.display = '';
+  if(modal)    modal.style.display    = 'flex';
 }
 
-function commit(){
-      if(done) return; done=true;
-      const m=(ed.value.trim()).match(/^(\d{1,2}):?(\d{2})$/);
-      if(m){
-        const hh=m[1].padStart(2,'0'),mm=m[2];
-        if(+hh<24&&+mm<60){
-          inp.value=hh+':'+mm;
-          inp.dispatchEvent(new Event('change',{bubbles:true}));
-          twSync(id); updateAllCalculations();
-        }
-      }
-      ed.remove(); disp.style.visibility='';
-      if(window.visualViewport){
-        window.visualViewport.removeEventListener('resize', positionEditor);
-        window.visualViewport.removeEventListener('scroll', positionEditor);
-      }
-    }
-
-function confirmClearFields(){
-  document.getElementById('clearFieldsModal').style.display = 'none';
-
-  // Champs de timing à effacer (pas les infos vol)
-  const timingIds = [
-    'AIBT','AOBT','PremierDebarque','PremierDebarqueL2','DernierDebarque',
-    'ArrPNT','ArrPNC','ArriveeFuel','DepartFuel','ArriveeLiftArr','DepartLiftArr',
-    'ArriveeLift','DepartLift','AvionPremierEmbarque','AvionDernierEmbarque',
-    'FermeturePorteAvion','RemiseLID','ConnexionAgentCasque','ArriveeINAD',
-    'CommChiffresPorte', 'CommChargementPiste',
-    'ArrPAX_MAIN','ArrPAX_INF','ArrBAGS','ArrPOIDS','ArrSI',
-    'PreviPAX_MAIN','PreviPAX_INF','PreviBAGS','PreviPOIDS','PreviSI',
-    'PreviPoussettesPorte','PreviPoussettesCBS',
-    'FinalMALE','FinalFEMALE','FinalADULT','FinalCHILD','FinalINFANT',
-    'FinalTOB','FinalOA','FinalOB','FinalOC','FinalOD',
-    'FinalBAGS','FinalPOIDS','FinalGB','FinalH1','FinalH2','FinalH3','FinalH4','FinalSI',
-    'BlockFuel','TripFuel','TaxiFuel','FuelUplift',
-    'DLcode1','DLcode2','DLcode3','DLduree1','DLduree2','DLduree3',
-    'FaitsSaillants'
-  ];
-
-  // Bloquer les envois WS pendant l'effacement pour éviter que les events
-  // 'change' dispatché envoient un full state qui réinsère le vol dans le dashboard
-  isApplyingRemoteUpdate = true;
-  try {
-    timingIds.forEach(id => {
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.value = '';
-      el.dispatchEvent(new Event('input',  { bubbles:true }));
-      el.dispatchEvent(new Event('change', { bubbles:true }));
-    });
-  } finally {
-    isApplyingRemoteUpdate = false;
-  }
-
-  updateAllCalculations();
-
-  // Forcer l'envoi des champs vidés au DO (pour update dashboard)
-  clearTimeout(window._sendFullDebounce);
-  window._sendFullDebounce = setTimeout(() => {
-    // Construire un patch avec tous les champs vidés + flag effacement intentionnel
-    const patch = { __clearAll: '1' };
-    timingIds.forEach(id => { patch[id] = ''; });
-    // Envoyer via le socket directement → broadcast à tous les clients du vol
-    /* envoi WS supprimé */
-  }, 300);
-
-  // Effacer aussi le bloc note (canvas + clavier)
-  if(typeof window.bnConfirmClear === 'function'){
-    // Effacer canvas sans confirmation
-    try{
-      window.bnConfirmClear._silent = true;
-      const strokes = [];
-      // Accès direct via bnReloadFromRemote avec tableau vide
-      window.bnReloadFromRemote?.(JSON.stringify(strokes));
-      document.getElementById('BlocNote') && (document.getElementById('BlocNote').value = '[]');
-    }catch(e){}
-  }
-  // Effacer le textarea clavier
-  const fsEl = document.getElementById('FaitsSaillants');
-  if(fsEl){ fsEl.value = ''; fsEl.dispatchEvent(new Event('change',{bubbles:true})); }
+function closeLockModal(){
+  document.getElementById('lockBackdrop').style.display = 'none';
+  document.getElementById('lockModal').style.display    = 'none';
+  // Ne PAS lever le readonly ici — l'utilisateur a juste fermé le popup
+  // Le readonly reste actif si le lock appartient à quelqu'un d'autre
 }
 
-async function footerRefreshAK(){
-  if(!currentTabId) return;
-  const data = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
-  if(!data.akMeta){
-    btn.style.animation = 'none';
-    btn.textContent = '✕';
-    setTimeout(()=>{ btn.textContent = '↻'; }, 800);
-    return;
-  }
-  btn.classList.add('is-loading');
+function showLockStolenModal(by){
+  const modal = document.getElementById('lockStolenModal');
+  const msg   = document.getElementById('lockStolenMsg');
+  if(msg) msg.innerHTML = `<strong style="color:#111;font-weight:900;">${by || 'Un autre agent'}</strong> a repris ce vol. Vous êtes maintenant en lecture seule.`;
+  if(modal) modal.style.display = 'flex';
+}
+
+function closeLockStolenModal(){
+  document.getElementById('lockStolenModal').style.display = 'none';
+}
+
+function openRZAModal(){
+  const back  = document.getElementById('rzaBackdrop');
+  const modal = document.getElementById('rzaModal');
+  const inp   = document.getElementById('rzaModalInput');
+  const title = document.querySelector('#rzaModal .card-header-title');
+
+  if(title) title.textContent = 'RZA requis';
+  if(back) back.style.display = '';
+  if(modal) modal.style.display = 'flex';
+
+  window._rzaContext = 'validate';
+
+  if(back) back.style.display = '';
+  if(modal) modal.style.display = 'flex';
+
+  // RZA vient du storage de l’onglet (plus de champ #RZA dans INFO VOL)
+  let current = '';
   try{
-    await refreshAKTab(currentTabId);
-  }finally{
-    btn.classList.remove('is-loading');
-  }
-}
-
-function getAutoLDMMode(){
-  const premierEmb  = (document.getElementById('AvionPremierEmbarque')?.value || '').trim();
-  const premierDeb  = (document.getElementById('PremierDebarque')?.value || '').trim();
-  const aibtVal     = (document.getElementById('AIBT')?.value || '').trim();
-
-  // 1. Premier Embarqué renseigné → FINAL
-  if(premierEmb) return 'final';
-
-  // 2. Pas d'AIBT → PREVI par défaut
-  const aibt = parseHHMM(aibtVal);
-  if(aibt == null) return 'previ';
-
-  const now = getNowMinutes().mins;
-
-  // Calculer la borne : PremierDebarque + 7min (si renseigné)
-  const deb = parseHHMM(premierDeb);
-  let debPlus7 = null;
-  if(deb != null){
-    debPlus7 = (deb + 7) % 1440;
-  }
-
-  // Savoir où on en est par rapport à AIBT
-  let diffAibt = now - aibt;
-  if(diffAibt < -720) diffAibt += 1440;
-  if(diffAibt >  720) diffAibt -= 1440;
-
-  if(diffAibt < 0) return 'previ'; // avant AIBT → PREVI
-
-  // Si PremierDebarque+7min atteint → PREVI
-  if(debPlus7 != null){
-    let diffDeb = now - debPlus7;
-    if(diffDeb < -720) diffDeb += 1440;
-    if(diffDeb >  720) diffDeb -= 1440;
-    if(diffDeb >= 0) return 'previ';
-  }
-
-  // Entre AIBT et PremierDebarque+7min → ARR
-  return 'arr';
-}
-
-function onCancel(id){ clearTimeout(st(id).t); }
-
-function onEnd(id){
-    const o=st(id);
-    clearTimeout(o.t);
-    if(o.fired) return;
-    const now=Date.now();
-    if(now-o.last<DBL_MS){ o.last=0; clearVal(id); }
-    else { o.last=now; }
-  }
-
-function onStart(id){
-    const o=st(id); o.fired=false;
-    clearTimeout(o.t);
-    o.t=setTimeout(()=>{ o.fired=true; openEdit(id); },LONG_MS);
-  }
-
-function openClearFieldsModal(){
-  document.getElementById('clearFieldsModal').style.display = 'flex';
-}
-
-function openEdit(id){
-    const wrap = document.querySelector(`.time-wrap[data-id="${id}"]`);
-    const inp  = document.getElementById(id);
-    const disp = document.getElementById('tw-disp-'+id);
-    if(!wrap||!inp||!disp) return;
-    if(document.querySelector('.tw-editor[data-for="'+id+'"]')) return;
-
-    const rect = wrap.getBoundingClientRect();
-
-    const ed = document.createElement('input');
-    ed.type='text'; ed.className='input tw-editor';
-    ed.setAttribute('data-for', id);
-    ed.value=inp.value||''; ed.placeholder='HH:MM';
-    ed.maxLength=5; ed.inputMode='numeric';
-    ed.setAttribute('enterkeyhint','done');
-
-    function positionEditor(){
-      const r = wrap.getBoundingClientRect();
-      const vv = window.visualViewport;
-      // Sur Android, visualViewport donne les coords réelles après ouverture du clavier
-      const offsetTop  = vv ? vv.offsetTop  : 0;
-      const offsetLeft = vv ? vv.offsetLeft : 0;
-      ed.style.top    = (r.top  + offsetTop)  + 'px';
-      ed.style.left   = (r.left + offsetLeft) + 'px';
-      ed.style.width  = r.width  + 'px';
-      ed.style.height = r.height + 'px';
+    if(currentTabId){
+      const data = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
+      current = (data.RZA || '').toUpperCase().trim();
     }
+  }catch(e){}
 
-    // Position fixe sur le wrap, en dehors du time-wrap pour éviter overflow:hidden
-    ed.style.cssText = `
-      position:fixed;
-      top:${rect.top}px; left:${rect.left}px;
-      width:${rect.width}px; height:${rect.height}px;
-      z-index:9999;
-      text-align:center; font-weight:900; font-size:1rem;
-      border-radius:var(--radius);
-      background:var(--card); color:var(--text);
-      border:2px solid #3273dc; padding:0; box-sizing:border-box;
-    `;
-    disp.style.visibility='hidden';
-    document.body.appendChild(ed);
+  if(inp){
+    inp.value = current;
+    inp.focus();
+    inp.select();
 
-    // Recalculer la position quand le clavier Android ouvre (visualViewport resize)
-    if(window.visualViewport){
-      window.visualViewport.addEventListener('resize', positionEditor);
-      window.visualViewport.addEventListener('scroll', positionEditor);
-    }
-
-    setTimeout(()=>{ ed.focus(); ed.select(); },30);
-
-    let done=false;
-    function commit(){
-      if(done) return; done=true;
-      const m=(ed.value.trim()).match(/^(\d{1,2}):?(\d{2})$/);
-      if(m){
-        const hh=m[1].padStart(2,'0'),mm=m[2];
-        if(+hh<24&&+mm<60){
-          inp.value=hh+':'+mm;
-          inp.dispatchEvent(new Event('change',{bubbles:true}));
-          twSync(id); updateAllCalculations();
-        }
-      }
-      ed.remove(); disp.style.visibility='';
-      if(window.visualViewport){
-        window.visualViewport.removeEventListener('resize', positionEditor);
-        window.visualViewport.removeEventListener('scroll', positionEditor);
-      }
-    }
-    ed.addEventListener('blur',commit);
-    ed.addEventListener('keydown',e=>{
-      if(e.key==='Enter'){e.preventDefault();commit();}
-      if(e.key==='Escape'){done=true;ed.remove();disp.style.visibility='';}
-    });
-  }
-
-function openFuelMenu(){
-  const b = document.getElementById('fuelBackdrop');
-  const m = document.getElementById('fuelMenu');
-  if(b) b.style.display = '';
-  if(m) m.style.display = 'block';
-}
-
-function positionEditor(){
-      const r = wrap.getBoundingClientRect();
-      const vv = window.visualViewport;
-      // Sur Android, visualViewport donne les coords réelles après ouverture du clavier
-      const offsetTop  = vv ? vv.offsetTop  : 0;
-      const offsetLeft = vv ? vv.offsetLeft : 0;
-      ed.style.top    = (r.top  + offsetTop)  + 'px';
-      ed.style.left   = (r.left + offsetLeft) + 'px';
-      ed.style.width  = r.width  + 'px';
-      ed.style.height = r.height + 'px';
-    }
-
-function toggleDelayCodes() {
-  const box = document.getElementById('delayCodesBox');
-  if (!box) return;
-  box.style.display = (box.style.display === 'none') ? 'block' : 'none';
-}
-
-function toggleDepExtra(panel){
-  const el = document.getElementById('panel-' + panel)
-  const btn = document.getElementById('btn-' + panel)
-  if(!el) return
-  const isOpen = el.style.display !== 'none'
-  el.style.display = isOpen ? 'none' : 'block'
-  if(btn){
-    if(isOpen){
-      btn.classList.remove('is-info', 'is-selected')
-    } else {
-      btn.classList.add('is-info', 'is-selected')
-    }
+    // MAJUSCULE + lettres uniquement + max 3
+    inp.oninput = ()=>{
+      inp.value = (inp.value || '')
+        .toUpperCase()
+        .replace(/[^A-Z]/g,'')
+        .slice(0,3);
+      const ok = inp.value.length >= 2;
+      const help = document.getElementById('rzaHelp');
+      if(help) help.style.display = ok ? 'none' : '';
+    };
+    inp.oninput();
   }
 }
+
+function closeRZAModal(validate){
+  const back = document.getElementById('rzaBackdrop');
+  const modal = document.getElementById('rzaModal');
+  if(modal) modal.style.display = 'none';
+  if(back) back.style.display = 'none';
+
+  if(validate) validateForm();
+}
+
+function submitRZAModal(){
+  const inp = document.getElementById('rzaModalInput');
+  const v = (inp?.value || '').toUpperCase().replace(/[^A-Z]/g,'').slice(0,3);
+
+  if(v.length < 2){
+    const h = document.getElementById('rzaHelp');
+    if(h) h.style.display = '';
+    if(inp) inp.focus();
+    return;
+  }
+
+  // Stocker RZA dans l'onglet courant ET en variable globale
+  window._pendingRZA = v;
+  if(currentTabId){
+    const data = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
+    data.RZA = v;
+    localStorage.setItem('tab-'+currentTabId, JSON.stringify(data));
+  }
+
+  // Aussi mettre à jour le champ RZA s'il existe
+  const rzaEl = document.getElementById('RZA');
+  if(rzaEl){ rzaEl.value = v; rzaEl.dispatchEvent(new Event('change',{bubbles:true})); }
+
+  // ✅ Envoyer RZA via WebSocket
+  sendFieldUpdate('RZA', v);
+
+  const ctx = window._rzaContext || 'validate';
+  window._rzaContext = null;
+
+  closeRZAModal(false); // fermer sans déclencher validateForm
+
+  // ✅ Maintenant que le RZA est connu, demander le lock
+  setTimeout(() => requestLock(), 300);
+
+  if(ctx === 'ak' && window._pendingAKFlight){
+    const { f, flow, opts } = window._pendingAKFlight;
+    window._pendingAKFlight = null;
+    _doApplyAKFlight(f, flow, opts);
+    setTimeout(() => sendFieldUpdate('RZA', v), 1500);
+  } else if(ctx === 'forceLock'){
+    forceTakeLock();
+  } else {
+    validateForm();
+  }
+}
+
+// Enter/Escape
+document.addEventListener('keydown', (e)=>{
+  const modal = document.getElementById('rzaModal');
+  if(!modal || modal.style.display === 'none') return;
+
+  if(e.key === 'Escape') closeRZAModal(false);
+  if(e.key === 'Enter') submitRZAModal();
+});
 
 function toggleFABs(show){
   const loadFab = document.getElementById('loadFab');
@@ -7739,63 +6771,13 @@ function toggleFABs(show){
   if(settingsFab) settingsFab.style.display = show ? 'inline-flex' : 'none';
 }
 
-function toggleFinalImage(){
-  const box = document.getElementById('finalImageBox');
-  box.style.display = (box.style.display === 'none') ? 'block' : 'none';
-}
-
-function toggleFuelMenu(){
-  const m = document.getElementById('fuelMenu');
-  const isOpen = m && m.style.display !== 'none' && m.style.display !== '';
-
-  closeAllPopups();
-  if(!isOpen) openFuelMenu();
-}
-
-function toggleInfoVolEdit(){
-  const edit = document.getElementById('ivEdit');
-  const icon = document.getElementById('ivEditIcon');
-  const open = edit.style.display === 'none' || edit.style.display === '';
-  edit.style.display = open ? 'grid' : 'none';
-  icon.textContent = open ? '✅' : '✏️';
-}
-
-function toggleLDM(mode=null){
-  const modal = document.getElementById('ldmModal');
-  const isOpen = modal && modal.style.display !== 'none' && modal.style.display !== '';
-
-  closeAllPopups();
-
-  if(isOpen){
-    closeLDM();
-    return;
-  }
-
-  // ✅ si tu appelles toggleLDM() sans argument → mode=null → auto
-  openLDM(mode);
-}
-
-function toggleSettings(){
-  const panel = document.getElementById('settingsPanel');
-  const backdrop = document.getElementById('settingsBackdrop');
-  const isOpen = panel.style.display === 'block';
-
-  closeAllPopups();
-  if (!isOpen){
-    panel.style.display = 'block';
-    backdrop.style.display = 'block';
-  }
-}
-
-function updateDLCodeInputMode(){
+function updateLidGuideVisibility(){
   const cie = (document.getElementById('Cie')?.value || '').toUpperCase().trim();
-  const numeric = (cie === 'FR' || cie === 'RK' || cie === 'H4' || cie === 'V7');
-  ['DLcode1','DLcode2','DLcode3'].forEach(id => {
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.inputMode = numeric ? 'numeric' : 'text';
-    el.pattern   = numeric ? '[0-9]*' : '';
-  });
+  const btn = document.querySelector('#ldmFinal button[onclick="toggleFinalImage()"]');
+  if(!btn) return;
+
+  const show = (cie === 'FR' || cie === 'RK');
+  btn.style.display = show ? '' : 'none';
 }
 
 function updateDelayCodesVisibility(){
@@ -7814,16 +6796,8 @@ function updateDelayCodesVisibility(){
     }
   }
 }
-
-function updateLidGuideVisibility(){
-  const cie = (document.getElementById('Cie')?.value || '').toUpperCase().trim();
-  const btn = document.querySelector('#ldmFinal button[onclick="toggleFinalImage()"]');
-  if(!btn) return;
-
-  const show = (cie === 'FR' || cie === 'RK');
-  btn.style.display = show ? '' : 'none';
-}
-
+  
+/* validateForm */
 function validateForm() {
   const val = id => (document.getElementById(id)?.value || "");
 
@@ -7847,7 +6821,11 @@ function validateForm() {
     }
   }catch(e){}
 
-  /* RZA supprimé */
+  // si pas de RZA -> on ouvre le popup et on stoppe l'envoi
+  if(!rza){
+    openRZAModal();
+    return;
+  }
 
   // ✅ Bloquer si pas d'AOBT (sauf vol ARR pur : TO = BVA)
   const aobt = val('AOBT');
@@ -8006,24 +6984,596 @@ function validateForm() {
   window.location.href =
     `mailto:?subject=${encodeURIComponent(titre)}&body=${encodeURIComponent(body)}`;
 }
+   
+/* ===== FUEL ===== */
+function openFuelMenu(){
+  const b = document.getElementById('fuelBackdrop');
+  const m = document.getElementById('fuelMenu');
+  if(b) b.style.display = '';
+  if(m) m.style.display = 'block';
+}
+
+function closeFuelMenu(){
+  const b = document.getElementById('fuelBackdrop');
+  const m = document.getElementById('fuelMenu');
+  if(m) m.style.display = 'none';
+  if(b) b.style.display = 'none';
+}
+
+function toggleFuelMenu(){
+  const m = document.getElementById('fuelMenu');
+  const isOpen = m && m.style.display !== 'none' && m.style.display !== '';
+
+  closeAllPopups();
+  if(!isOpen) openFuelMenu();
+}
+
+/* ESC ferme fuel */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeFuelMenu();
+});
+
+/* ===== CLOSE ALL POPUPS ===== */
+function closeAllPopups(){
+  // FUEL
+  closeFuelMenu?.();
+
+  // LOAD (LDM)
+  closeLDM?.();
+
+  // SETTINGS
+  closeSettingsMenu?.();
+
+  // AK
+  closeAKPicker?.();
+
+  // RZA
+  closeRZAModal?.(false);
+}
+
+/* ===== LOAD ===== */
+function toggleLDM(mode=null){
+  const modal = document.getElementById('ldmModal');
+  const isOpen = modal && modal.style.display !== 'none' && modal.style.display !== '';
+
+  closeAllPopups();
+
+  if(isOpen){
+    closeLDM();
+    return;
+  }
+
+  // ✅ si tu appelles toggleLDM() sans argument → mode=null → auto
+  openLDM(mode);
+}
+
+/* ===== PARAMÈTRES ===== */
+function toggleSettings(){
+  const panel = document.getElementById('settingsPanel');
+  const backdrop = document.getElementById('settingsBackdrop');
+  const isOpen = panel.style.display === 'block';
+
+  closeAllPopups();
+  if (!isOpen){
+    panel.style.display = 'block';
+    backdrop.style.display = 'block';
+  }
+}
+
+/* ===== BLOC NOTE CANVAS ===== */
+(function(){
+  let _bnReady = false;
+  let _tool = 'pen';      // 'pen' | 'eraser-stroke'
+  let _strokes = [];      // [{tool, color, size, pts:[{x,y}]}]
+  let _current = null;
+  let _drawing = false;
+  let _historyKey = null;
+
+  function canvas(){ return document.getElementById('bnCanvas'); }
+  function ctx(){ const c=canvas(); return c ? c.getContext('2d') : null; }
+
+  function bnInit(){
+    const c = canvas();
+    if(!c || _bnReady) return;
+
+    // Attendre que le canvas soit visible et ait une taille
+    const w = c.offsetWidth || c.closest('.card-content')?.offsetWidth || 300;
+    if(w === 0){
+      setTimeout(bnInit, 100);
+      return;
+    }
+
+    _bnReady = true;
+
+    // Taille responsive — haute résolution (devicePixelRatio)
+    function resize(){
+      const dpr = window.devicePixelRatio || 1;
+      const parent = c.parentElement || c.closest('.card-content');
+      const cw  = (parent?.clientWidth || c.offsetWidth || 300);
+      const h   = Math.round(cw * 0.45);
+      const pw  = Math.round(cw * dpr);
+      const ph  = Math.round(h * dpr);
+      if(c.width !== pw || c.height !== ph){
+        c.width  = pw;
+        c.height = ph;
+        c.style.width  = cw + 'px';
+        c.style.height = h  + 'px';
+        const g = ctx();
+        if(g) g.setTransform(dpr, 0, 0, dpr, 0, 0);
+        bnRedraw();
+      }
+    }
+    new ResizeObserver(()=>requestAnimationFrame(resize)).observe(c);
+    resize();
+
+    // Charger depuis storage
+    _historyKey = 'bnCanvas_' + (currentTabId||'default');
+    bnLoad();
+
+    // Événements pointer (stylet + doigt + souris)
+    c.addEventListener('pointerdown', e=>{ e.preventDefault(); bnStart(e); }, {passive:false});
+    c.addEventListener('pointermove', e=>{ e.preventDefault(); bnMove(e);  }, {passive:false});
+    c.addEventListener('pointerup',   e=>{ e.preventDefault(); bnEnd(e);   }, {passive:false});
+    c.addEventListener('pointerleave',e=>{ bnEnd(e); }, {passive:false});
+    // Empêcher menu contextuel et sélection sur appui long (mobile)
+    c.addEventListener('contextmenu', e=>{ e.preventDefault(); }, {passive:false});
+    c.addEventListener('selectstart',  e=>{ e.preventDefault(); }, {passive:false});
+  }
+
+  function bnPt(e){
+    const c = canvas();
+    const r = c.getBoundingClientRect();
+    // Pas de multiplication DPR ici — on travaille en CSS pixels, le scale() du ctx s'en charge
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+
+  function bnStart(e){
+    _drawing = true;
+    const pt = bnPt(e);
+    if(_tool === 'eraser-stroke'){
+      _current = { tool:'eraser-stroke', pts:[pt] };
+    } else {
+      const color = document.getElementById('bnColor')?.value || '#1e3a8a';
+      const size  = parseInt(document.getElementById('bnSize')?.value || '3', 10);
+      _current = { tool:'pen', color, size, pts:[pt] };
+    }
+  }
+
+  function bnMove(e){
+    if(!_drawing || !_current) return;
+    _current.pts.push(bnPt(e));
+    bnRedraw();
+    // Dessine le trait en cours
+    bnDrawStroke(_current, ctx());
+  }
+
+  function bnEnd(e){
+    if(!_drawing || !_current) return;
+    _drawing = false;
+    if(_tool === 'eraser-stroke'){
+      // Supprimer les traits qui intersectent le chemin de gomme
+      const erasePts = _current.pts;
+      _strokes = _strokes.filter(s => !bnStrokeIntersects(s, erasePts));
+    } else if(_current.pts.length > 0){
+      _strokes.push(_current);
+    }
+    _current = null;
+    bnRedraw();
+    bnSave();
+  }
+
+  function bnStrokeIntersects(stroke, erasePts){
+    const threshold = 18;
+    for(const ep of erasePts){
+      for(const sp of stroke.pts){
+        const dx = ep.x - sp.x, dy = ep.y - sp.y;
+        if(dx*dx + dy*dy < threshold*threshold) return true;
+      }
+    }
+    return false;
+  }
+
+  function bnDrawStroke(s, c){
+    if(!c || s.pts.length < 1) return;
+    c.save();
+    if(s.tool === 'eraser-stroke'){
+      c.globalCompositeOperation = 'source-over';
+      c.strokeStyle = 'rgba(200,200,200,0.5)';
+      c.lineWidth   = 18;
+      c.setLineDash([4,4]);
+    } else {
+      c.globalCompositeOperation = 'source-over';
+      c.strokeStyle = s.color;
+      c.lineWidth   = s.size;
+      c.setLineDash([]);
+      c.lineCap     = 'round';
+      c.lineJoin    = 'round';
+    }
+    c.beginPath();
+    c.moveTo(s.pts[0].x, s.pts[0].y);
+    for(let i=1; i<s.pts.length; i++) c.lineTo(s.pts[i].x, s.pts[i].y);
+    c.stroke();
+    c.restore();
+  }
+
+  function bnRedraw(){
+    const c2 = canvas(); const g = ctx();
+    if(!c2||!g) return;
+    const dpr = window.devicePixelRatio || 1;
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, c2.width / dpr, c2.height / dpr);
+    _strokes.forEach(s => bnDrawStroke(s, g));
+  }
+
+  function bnSave(){
+    if(!_historyKey) return;
+    try{
+      const data = JSON.stringify(_strokes);
+      localStorage.setItem(_historyKey, data);
+      // Sync WebSocket — forcer via twSync directement
+      const el = document.getElementById('BlocNote');
+      if(el){
+        el.value = data;
+        // twSync est défini globalement
+        if(typeof twSync === 'function') twSync('BlocNote');
+      }
+    }catch(e){}
+  }
+
+  function bnLoad(){
+    _historyKey = 'bnCanvas_' + (currentTabId||'default');
+    try{
+      const raw = localStorage.getItem(_historyKey);
+      const elRaw = document.getElementById('BlocNote')?.value || '';
+      const source = raw || elRaw;
+      if(source) _strokes = JSON.parse(source);
+      else        _strokes = [];
+    }catch(e){ _strokes=[]; }
+    setTimeout(bnRedraw, 50);
+  }
+
+  window.bnSetTool = function(tool){
+    _tool = tool;
+    document.getElementById('bnPen')?.classList.toggle('is-link',   tool==='pen');
+    document.getElementById('bnPen')?.classList.toggle('is-light',  tool!=='pen');
+    document.getElementById('bnEraserStroke')?.classList.toggle('is-warning', tool==='eraser-stroke');
+    document.getElementById('bnEraserStroke')?.classList.toggle('is-light',   tool!=='eraser-stroke');
+  };
+
+  window.bnReloadFromRemote = function(raw){
+    try{
+      const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      if(!Array.isArray(parsed)) return;
+      _strokes = parsed;
+      if(_historyKey) localStorage.setItem(_historyKey, JSON.stringify(_strokes));
+      bnRedraw();
+    }catch(e){}
+  };
+  window.bnSwitchMode = function(mode){
+    const drawDiv = document.getElementById('bnDrawMode');
+    const textDiv = document.getElementById('bnTextMode');
+    const drawBtn = document.getElementById('bnPen');
+    const textBtn = document.getElementById('bnModeTextBtn');
+    if(!drawDiv || !textDiv) return;
+    const isDraw = mode === 'draw';
+    drawDiv.style.display = isDraw ? '' : 'none';
+    textDiv.style.display = isDraw ? 'none' : '';
+    const drawTools = document.getElementById('bnDrawTools');
+    if(drawTools) drawTools.style.display = isDraw ? 'flex' : 'none';
+    drawBtn.classList.toggle('is-link',  isDraw);
+    drawBtn.classList.toggle('is-light', !isDraw);
+    textBtn.classList.toggle('is-link',  !isDraw);
+    textBtn.classList.toggle('is-light', isDraw);
+    if(isDraw){
+      setTimeout(()=>{
+        const c = document.getElementById('bnCanvas');
+        if(!c) return;
+        const dpr = window.devicePixelRatio || 1;
+        const w   = c.offsetWidth || c.parentElement?.offsetWidth || 300;
+        const h   = Math.round(w * 0.45);
+        // Forcer les dimensions même si inchangées
+        c.width  = Math.round(w * dpr);
+        c.height = Math.round(h * dpr);
+        c.style.width  = w + 'px';
+        c.style.height = h + 'px';
+        const g = c.getContext('2d');
+        if(g) g.setTransform(dpr, 0, 0, dpr, 0, 0);
+        _bnReady = false;
+        bnInit();
+        bnRedraw();
+      }, 80);
+    }
+    try{ localStorage.setItem('bnMode_'+(currentTabId||'default'), mode); }catch(e){}
+  };
+
+  window.bnClear = function(){
+    const m = document.getElementById('bnClearModal');
+    if(m){ m.style.display = 'flex'; }
+  };
+
+  window.bnConfirmClear = function(){
+    document.getElementById('bnClearModal').style.display = 'none';
+    _strokes = [];
+    bnRedraw();
+    bnSave();
+  };
+
+  window.bnUpdateColor = function(){ /* color picker auto */ };
+
+  // Réinitialiser quand on change d'onglet
+  window.bnReloadTab = function(){
+    _bnReady = false;
+    _strokes = [];
+    _current = null;
+    _drawing = false;
+    // Restaurer le mode (dessin ou clavier)
+    const savedMode = localStorage.getItem('bnMode_'+(currentTabId||'default')) || 'text';
+    setTimeout(()=>{ window.bnSwitchMode?.(savedMode); bnInit(); bnLoad(); }, 100);
+  };
+
+  // Init dès que le canvas est visible
+  document.addEventListener('DOMContentLoaded', ()=>{
+    setTimeout(bnInit, 200);
+  });
+})();
+
+function openClearFieldsModal(){
+  document.getElementById('clearFieldsModal').style.display = 'flex';
+}
+
+function confirmClearFields(){
+  document.getElementById('clearFieldsModal').style.display = 'none';
+
+  // Champs de timing à effacer (pas les infos vol)
+  const timingIds = [
+    'AIBT','AOBT','PremierDebarque','PremierDebarqueL2','DernierDebarque',
+    'ArrPNT','ArrPNC','ArriveeFuel','DepartFuel','ArriveeLiftArr','DepartLiftArr',
+    'ArriveeLift','DepartLift','AvionPremierEmbarque','AvionDernierEmbarque',
+    'FermeturePorteAvion','RemiseLID','ConnexionAgentCasque','ArriveeINAD',
+    'CommChiffresPorte', 'CommChargementPiste',
+    'ArrPAX_MAIN','ArrPAX_INF','ArrBAGS','ArrPOIDS','ArrSI',
+    'PreviPAX_MAIN','PreviPAX_INF','PreviBAGS','PreviPOIDS','PreviSI',
+    'PreviPoussettesPorte','PreviPoussettesCBS',
+    'FinalMALE','FinalFEMALE','FinalADULT','FinalCHILD','FinalINFANT',
+    'FinalTOB','FinalOA','FinalOB','FinalOC','FinalOD',
+    'FinalBAGS','FinalPOIDS','FinalGB','FinalH1','FinalH2','FinalH3','FinalH4','FinalSI',
+    'BlockFuel','TripFuel','TaxiFuel','FuelUplift',
+    'DLcode1','DLcode2','DLcode3','DLduree1','DLduree2','DLduree3',
+    'FaitsSaillants'
+  ];
+
+  // Bloquer les envois WS pendant l'effacement pour éviter que les events
+  // 'change' dispatché envoient un full state qui réinsère le vol dans le dashboard
+  isApplyingRemoteUpdate = true;
+  try {
+    timingIds.forEach(id => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.value = '';
+      el.dispatchEvent(new Event('input',  { bubbles:true }));
+      el.dispatchEvent(new Event('change', { bubbles:true }));
+    });
+  } finally {
+    isApplyingRemoteUpdate = false;
+  }
+
+  updateAllCalculations();
+
+  // Forcer l'envoi des champs vidés au DO (pour update dashboard)
+  clearTimeout(window._sendFullDebounce);
+  window._sendFullDebounce = setTimeout(() => {
+    // Construire un patch avec tous les champs vidés + flag effacement intentionnel
+    const patch = { __clearAll: '1' };
+    timingIds.forEach(id => { patch[id] = ''; });
+    // Envoyer via le socket directement → broadcast à tous les clients du vol
+    if(socket && socket.readyState === WebSocket.OPEN && currentSocketKey){
+      socket.send(JSON.stringify(patch));
+    } else {
+      sendFullFlightState();
+    }
+  }, 300);
+
+  // Effacer aussi le bloc note (canvas + clavier)
+  if(typeof window.bnConfirmClear === 'function'){
+    // Effacer canvas sans confirmation
+    try{
+      window.bnConfirmClear._silent = true;
+      const strokes = [];
+      // Accès direct via bnReloadFromRemote avec tableau vide
+      window.bnReloadFromRemote?.(JSON.stringify(strokes));
+      document.getElementById('BlocNote') && (document.getElementById('BlocNote').value = '[]');
+    }catch(e){}
+  }
+  // Effacer le textarea clavier
+  const fsEl = document.getElementById('FaitsSaillants');
+  if(fsEl){ fsEl.value = ''; fsEl.dispatchEvent(new Event('change',{bubbles:true})); }
+}
+
+function openCloseAllModal(){
+  document.getElementById('closeAllModal').style.display = 'flex';
+}
+
+function confirmCloseAll() {
+  document.getElementById('closeAllModal').style.display = 'none';
+
+  const tabs = JSON.parse(localStorage.getItem('flightTabs') || '[]');
+  const WS_BASE = 'wss://turnaround-sync.deruellehugo-49c.workers.dev/';
+  const deletePromises = [];
+
+  tabs.forEach(tid => {
+    try{
+      const data = JSON.parse(localStorage.getItem('tab-'+tid) || '{}');
+      const from = (data.From || '').toUpperCase().trim();
+      const isBVA = from === 'BVA' || !data.SOBT;
+
+      let shouldDelete;
+      if(isBVA){
+        const hasArrData = ['AvionPremierEmbarque','ArrPNC','ArrPNT']
+          .some(f => (data[f] || '').trim() !== '');
+        shouldDelete = !hasArrData;
+      } else {
+        shouldDelete = !(data.AIBT || '').trim();
+      }
+
+      if(shouldDelete){
+        const meta = data?.akMeta;
+        if(!meta?.id) return;
+        const key = `AK_${meta.id}`;
+        const fid = String(meta.id || '').trim();
+        const lid = String(meta.linkedId || '').trim();
+        const dashKey = (fid && lid) ? (fid < lid ? fid : lid) : fid;
+        const deleteMsg = JSON.stringify({ __delete: '1', ...(dashKey ? { __dashboardKey: dashKey } : {}) });
+        if(tid === currentTabId && socket && socket.readyState === WebSocket.OPEN){
+          socket.send(deleteMsg);
+        } else {
+          const p = new Promise(resolve => {
+            try{
+              const ws = new WebSocket(WS_BASE + encodeURIComponent(key));
+              ws.onopen = () => { ws.send(deleteMsg); setTimeout(()=>{ try{ws.close();}catch(_){} resolve(); }, 200); };
+              ws.onerror = () => resolve();
+              setTimeout(resolve, 2000);
+            }catch(_){ resolve(); }
+          });
+          deletePromises.push(p);
+        }
+      }
+    }catch(_){}
+  });
+
+  const doClose = () => {
+    clearTimeout(window._sendFullDebounce);
+    clearTimeout(saveTimer); saveTimer = null;
+    if(socket){ try{ socket.close(); }catch(_){} socket = null; currentSocketKey = null; }
+    localStorage.clear();
+    location.reload();
+  };
+
+  if(deletePromises.length > 0){
+    Promise.all(deletePromises).then(() => setTimeout(doClose, 500));
+  } else {
+    doClose();
+  }
+}
+
+function clearAutoSave() {
+  confirmCloseAll();
+}
+
+function getAutoLDMMode(){
+  const premierEmb  = (document.getElementById('AvionPremierEmbarque')?.value || '').trim();
+  const premierDeb  = (document.getElementById('PremierDebarque')?.value || '').trim();
+  const aibtVal     = (document.getElementById('AIBT')?.value || '').trim();
+
+  // 1. Premier Embarqué renseigné → FINAL
+  if(premierEmb) return 'final';
+
+  // 2. Pas d'AIBT → PREVI par défaut
+  const aibt = parseHHMM(aibtVal);
+  if(aibt == null) return 'previ';
+
+  const now = getNowMinutes().mins;
+
+  // Calculer la borne : PremierDebarque + 7min (si renseigné)
+  const deb = parseHHMM(premierDeb);
+  let debPlus7 = null;
+  if(deb != null){
+    debPlus7 = (deb + 7) % 1440;
+  }
+
+  // Savoir où on en est par rapport à AIBT
+  let diffAibt = now - aibt;
+  if(diffAibt < -720) diffAibt += 1440;
+  if(diffAibt >  720) diffAibt -= 1440;
+
+  if(diffAibt < 0) return 'previ'; // avant AIBT → PREVI
+
+  // Si PremierDebarque+7min atteint → PREVI
+  if(debPlus7 != null){
+    let diffDeb = now - debPlus7;
+    if(diffDeb < -720) diffDeb += 1440;
+    if(diffDeb >  720) diffDeb -= 1440;
+    if(diffDeb >= 0) return 'previ';
+  }
+
+  // Entre AIBT et PremierDebarque+7min → ARR
+  return 'arr';
+}
+
+function toggleFinalImage(){
+  const box = document.getElementById('finalImageBox');
+  box.style.display = (box.style.display === 'none') ? 'block' : 'none';
+}
+
+function toggleDelayCodes() {
+  const box = document.getElementById('delayCodesBox');
+  if (!box) return;
+  box.style.display = (box.style.display === 'none') ? 'block' : 'none';
+}
 
 
-/* ── loadAKFlights patch : appeler renderListeBody après render ── */
-const _origLoadAKFlights = typeof loadAKFlights === 'function' ? loadAKFlights : null;
+function updateDLCodeInputMode(){
+  const cie = (document.getElementById('Cie')?.value || '').toUpperCase().trim();
+  const numeric = (cie === 'FR' || cie === 'RK' || cie === 'H4' || cie === 'V7');
+  ['DLcode1','DLcode2','DLcode3'].forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.inputMode = numeric ? 'numeric' : 'text';
+    el.pattern   = numeric ? '[0-9]*' : '';
+  });
+}
 
+function toggleDepExtra(panel){
+  const el = document.getElementById('panel-' + panel)
+  const btn = document.getElementById('btn-' + panel)
+  if(!el) return
+  const isOpen = el.style.display !== 'none'
+  el.style.display = isOpen ? 'none' : 'block'
+  if(btn){
+    if(isOpen){
+      btn.classList.remove('is-info', 'is-selected')
+    } else {
+      btn.classList.add('is-info', 'is-selected')
+    }
+  }
+}
 </script>
 
+<!-- ===== Airport Keeper Picker ===== -->
+<div id="akBackdrop" onclick="closeAKPicker()"></div>
 
-<!-- ===== SETTINGS BACKDROP ===== -->
+<div id="akPopover">
+  <div class="ak-header" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+    <button class="button is-small is-link" type="button" onclick="loadAKFlights()">
+      Rafraîchir
+    </button>
+    <span class="tag is-light" id="akStatus">—</span>
+    <button class="button is-small is-light" type="button"
+            style="margin-left:auto"
+            onclick="closeAKPicker()">
+      Fermer
+    </button>
+  </div>
+
+  <div id="akList"></div>
+</div>
+
+<!-- ===== SETTINGS MENU (bottom gear) ===== -->
 <div id="settingsBackdrop" onclick="closeSettingsMenu()"></div>
 
-<!-- ===== SETTINGS MENU ===== -->
+<button id="settingsFab" class="button is-link" type="button" onclick="toggleSettingsMenu()" aria-label="Paramètres">
+  ⚙️
+</button>
+
 <div id="settingsMenu" role="dialog" aria-modal="true">
+
   <div class="settings-header">
     <strong>Paramètres</strong>
     <button class="button is-small is-light" type="button" onclick="closeSettingsMenu()">Fermer</button>
   </div>
+
   <div class="settings-body">
+
+    <!-- Thème -->
     <div class="settings-item">
       <div class="settings-item-label">
         <strong id="darkLabel">Clair</strong>
@@ -8034,6 +7584,8 @@ const _origLoadAKFlights = typeof loadAKFlights === 'function' ? loadAKFlights :
         <span class="track"><span class="thumb"></span></span>
       </label>
     </div>
+
+    <!-- Fuseau horaire -->
     <div class="settings-item">
       <div class="settings-item-label">
         <strong id="tzLabel">Local</strong>
@@ -8044,38 +7596,1124 @@ const _origLoadAKFlights = typeof loadAKFlights === 'function' ? loadAKFlights :
         <span class="track"><span class="thumb"></span></span>
       </label>
     </div>
+
   </div>
 </div>
 
-<!-- ===== FIXED FOOTER (EOBT / CTOT / CD) ===== -->
+<!-- ===== FIXED FOOTER (CD / EOBT / CTOT) ===== -->
 <div class="fixed-footer" id="fixedFooter">
   <div class="fixed-footer-inner">
     <div class="footer-row">
+
       <div class="timer-chip">
         <div class="k">EOBT</div>
         <div id="timer-eobt" class="v">--:--</div>
       </div>
+
       <div class="timer-chip">
         <div class="k">CTOT</div>
         <div id="timer-ctot" class="v" style="background:#334155;">--:--</div>
         <input id="CTOT" type="hidden">
       </div>
+
       <div class="timer-chip">
         <div class="k">CD</div>
         <div id="timer-cd" class="v">--:--</div>
       </div>
+
     </div>
   </div>
 </div>
 
-<!-- ===== FAB LOAD + SETTINGS ===== -->
+<!-- ===== FAB LOAD + FUEL ===== -->
 <button id="loadFab" class="button is-info" type="button"
-        onclick="toggleLDM()" aria-label="Load"
-        style="display:none;">🧳</button>
+        onclick="toggleLDM()" aria-label="Load">
+  🧳
+</button>
 
-<button id="settingsFab" class="button is-link" type="button"
-        onclick="toggleSettingsMenu()" aria-label="Paramètres"
-        style="display:none;">⚙️</button>
+<script>
+let socket = null;
+let isApplyingRemoteUpdate = false;
+let currentSocketKey = null;
+const debounceTimers = {};
+let realtimeSyncInitialized = false;
+let pendingPatch = {};
+let _flushTimer = null;
+const _recentlyEdited = new Map(); /* id → timer — protège les champs saisis localement */           /* batch debounce — regroupe les envois */
+let hasReceivedInitialState = false;
+
+function buildFlightKey() {
+  try {
+    if (typeof getTabData === "function") {
+      const data = getTabData();
+      const akId = data?.akMeta?.id ? String(data.akMeta.id).trim() : "";
+      if (akId) return `AK_${akId}`;
+    }
+  } catch (e) {}
+
+  const date = (document.getElementById("Date")?.value || "").replaceAll("-", "");
+  const immat = (document.getElementById("Immat")?.value || "")
+    .trim()
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "");
+
+  const from = (document.getElementById("From")?.value || "").trim().toUpperCase();
+  const to = (document.getElementById("To")?.value || "").trim().toUpperCase();
+
+  const sibt = (document.getElementById("SIBT")?.value || "").replace(":", "");
+  const sobt = (document.getElementById("SOBT")?.value || "").replace(":", "");
+
+  const timeRef = sibt || sobt;
+  const stationRef = from || to;
+
+  if (!date || !immat || !timeRef || !stationRef) return null;
+
+  return `${date}_${immat}_${stationRef}_${timeRef}`;
+}
+
+function applyRemotePayload(payload) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return;
+
+  // Si le payload vient d'un applyAKFlight distant → on lève la protection
+  const isFromAK = payload['__fromAK'] === '1';
+  // Si c'est un effacement intentionnel (bouton Effacer) → on accepte les vides
+  const isClearAll = payload['__clearAll'] === '1';
+
+  const akProtectedFields = isFromAK
+    ? new Set(["Date"])
+    : new Set(["Date", "Parking", "Immat", "TypeAvion", "From", "To", "SIBT"]);
+
+  // ✅ Traitement spécial : akMeta distant
+  if(payload['__akMeta'] && currentTabId){
+    try{
+      const remoteMeta = JSON.parse(payload['__akMeta']);
+      const data = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
+      const localMeta = data.akMeta;
+
+      // Fusionner : on garde le plus récent, mais on complète arrFF/depFF manquants
+      if(!localMeta || (remoteMeta.ts || 0) >= (localMeta.ts || 0)){
+        data.akMeta = remoteMeta;
+      } else {
+        // Local plus récent : compléter arrFF/depFF si l'autre appareil a l'autre moitié
+        if(!localMeta.arrFF && remoteMeta.arrFF) localMeta.arrFF = remoteMeta.arrFF;
+        if(!localMeta.depFF && remoteMeta.depFF) localMeta.depFF = remoteMeta.depFF;
+        if(!localMeta.bc   && remoteMeta.bc)     localMeta.bc   = remoteMeta.bc;
+        data.akMeta = localMeta;
+      }
+      localStorage.setItem('tab-'+currentTabId, JSON.stringify(data));
+      // Mise à jour du bandeau INFO VOL
+      if(typeof updateInfoStrip === 'function') setTimeout(updateInfoStrip, 0);
+    }catch(e){}
+  }
+
+  // Convertit les ISO → HH:MM selon le mode de cet appareil
+  const converted = inboundPatch(payload);
+
+  // Mise à jour du bloc note si BlocNote reçu
+  if(converted.BlocNote !== undefined){
+    try{
+      const el = document.getElementById('BlocNote');
+      if(el) el.value = converted.BlocNote;
+      // Recharger les strokes dans le canvas
+      if(typeof window.bnReloadFromRemote === 'function') window.bnReloadFromRemote(converted.BlocNote);
+    }catch(e){}
+  }
+
+  isApplyingRemoteUpdate = true;
+  try {
+    Object.entries(converted).forEach(([id, value]) => {
+      if(id === '__akMeta') return; // déjà traité
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      if (akProtectedFields.has(id)) return;
+      if (el.dataset && el.dataset.ak === "1") return;
+
+      const newValue = value ?? "";
+      if (el.value === newValue) return;
+
+      // Ne pas écraser un champ en cours d'édition
+      if (document.activeElement === el) return;
+
+      // Ne pas écraser un champ modifié récemment — sauf en lecture seule
+      if (_recentlyEdited.has(id) && !document.body.classList.contains('readonly-mode')) return;
+
+      // Ne jamais écraser une valeur locale avec une valeur vide distante
+      // Exception : effacement intentionnel (__clearAll)
+      if(newValue === '' && el.value !== '' && !isClearAll) return;
+
+      el.value = newValue;
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+  } finally {
+    isApplyingRemoteUpdate = false;
+    if(typeof twSyncAll === "function") setTimeout(twSyncAll, 0);
+  }
+}
+
+function collectFlightState() {
+  const ids = [
+    "Cie",
+    "NVol",
+    "Callsign",
+    "From",
+    "To",
+    "Date",
+    "Parking",
+    "Immat",
+    "TypeAvion",
+    "SIBT",
+    "SOBT",
+    "EOBT",
+    "AIBT",
+    "AOBT",
+    "CTOT",
+
+    "DLcode1", "DLcode2", "DLcode3",
+    "DLduree1", "DLduree2", "DLduree3",
+    "FaitsSaillants",
+    "BlocNote",
+    "BlocNote",
+
+    "ArriveeFuel",
+    "PremierDebarque",
+    "PremierDebarqueL2",
+    "DernierDebarque",
+    "ArriveeLiftArr",
+    "DepartLiftArr",
+
+    "ArrPNT",
+    "ArrPNC",
+    "AvionPremierEmbarque",
+    "AvionDernierEmbarque",
+    "ArriveeLift",
+    "DepartLift",
+    "DepartFuel",
+    "ArriveeINAD",
+    "RemiseLID",
+    "FermeturePorteAvion",
+    "ConnexionAgentCasque",
+    "RechercheBagNombre","RechercheBagDebut","RechercheBagFin","AnnonceINAD","AppelNayak","BranchementGPU","DebranchementGPU",
+
+    "ArrPAX_MAIN",
+    "ArrPAX_INF",
+    "ArrBAGS",
+    "ArrPOIDS",
+    "ArrSI",
+
+    "PreviPAX_MAIN",
+    "PreviPAX_INF",
+    "PreviBAGS",
+    "PreviPOIDS",
+    "PreviTOB_FRRK",
+    "PreviMALE",
+    "PreviFEMALE",
+    "PreviCHILD",
+    "PreviINFANT",
+    "PreviTOB",
+    "PreviBAGS_OTHER",
+    "PreviPOIDS_OTHER",
+    "PreviSI",
+
+    "FinalMALE",
+    "FinalFEMALE",
+    "FinalADULT",
+    "FinalCHILD",
+    "FinalINFANT",
+    "FinalTOB",
+    "FinalOA",
+    "FinalOB",
+    "FinalOC",
+    "FinalOD",
+    "FinalBAGS",
+    "FinalPOIDS",
+    "FinalGB",
+    "FinalH1",
+    "FinalH2",
+    "FinalH3",
+    "FinalH4",
+    "FinalSI",
+    "CommChiffresPorte", "CommChargementPiste",
+    "FinalCREW",
+    "FinalTHOB",
+
+    "BlockFuel",
+    "TaxiFuel",
+    "TripFuel",
+    "FuelUplift"
+  ];
+
+  const payload = {};
+  ids.forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    payload[id] = el.value || "";
+  });
+
+  // ✅ RZA — stocké en localStorage, pas dans le DOM
+  try{
+    if(currentTabId){
+      const data = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
+      const rza = (data.RZA || '').toUpperCase().trim();
+      if(rza) payload['RZA'] = rza;
+    }
+  }catch(_){}
+
+  // depFF/arrFF pour affichage dashboard
+  try{
+    const meta2 = getTabData()?.akMeta;
+    if(meta2?.depFF)    payload['__depFF']    = meta2.depFF;
+    if(meta2?.arrFF)    payload['__arrFF']    = meta2.arrFF;
+    if(meta2?.id)       payload['__akId']     = String(meta2.id);
+    if(meta2?.linkedId) payload['__linkedId'] = String(meta2.linkedId);
+  }catch(_){}
+
+  // Clé dashboard commune ARR+DEP : min(id, linkedId)
+  try{
+    const meta = getTabData()?.akMeta;
+    const fid = String(meta?.id || '').trim();
+    const lid = String(meta?.linkedId || '').trim();
+    if(fid && lid){
+      payload['__dashboardKey'] = fid < lid ? fid : lid;
+    } else if(fid){
+      payload['__dashboardKey'] = fid;
+    }
+  }catch(_){}
+
+  // Convertit les champs horaires en ISO UTC
+  const dateStr = document.getElementById('Date')?.value || '';
+  for (const id of UTC_TIME_FIELDS) {
+    if (payload[id] && /^\d{2}:\d{2}$/.test(payload[id])) {
+      payload[id] = hhmmToISO(payload[id], dateStr, isUTC);
+    }
+  }
+
+  return payload;
+}
+
+function flushPendingPatch() {
+  if (!socket || socket.readyState !== WebSocket.OPEN) return;
+  if (!currentSocketKey) return;
+
+  const entries = Object.entries(pendingPatch);
+  if (!entries.length) return;
+
+  const raw = { ...pendingPatch };
+  pendingPatch = {};
+
+  // Convertit les champs horaires en ISO UTC avant envoi
+  const payload = outboundPatch(raw);
+
+  // ✅ Toujours inclure __linkedRoom si une rotation liée existe
+  const lr = getLinkedRoom();
+  if(lr) payload['__linkedRoom'] = lr;
+
+  socket.send(JSON.stringify(payload));
+}
+
+
+function getLinkedRoom() {
+  try {
+    const meta = getTabData()?.akMeta;
+    const linkedId = String(meta?.linkedId || '').trim();
+    if(linkedId){
+      return `AK_${linkedId}`;
+    }
+  } catch(_) {}
+  return null;
+}
+
+
+function sendFullFlightState() {
+  if (isApplyingRemoteUpdate) return;
+
+  const key = buildFlightKey();
+  if (!key) return;
+
+  // Si socket pas encore prêt, connecter et réessayer
+  if (!socket || socket.readyState !== WebSocket.OPEN || currentSocketKey !== key) {
+    connectFlightSocket();
+    setTimeout(() => {
+      if(socket && socket.readyState === WebSocket.OPEN && currentSocketKey === key){
+        const payload = collectFlightState();
+        const lr = getLinkedRoom();
+        if(lr) payload['__linkedRoom'] = lr;
+        socket.send(JSON.stringify(payload));
+      }
+    }, 1000);
+    return;
+  }
+
+  const payload = collectFlightState();
+  const lr = getLinkedRoom();
+  if(lr) payload['__linkedRoom'] = lr;
+  socket.send(JSON.stringify(payload));
+}
+
+function connectFlightSocket() {
+  const key = buildFlightKey();
+
+  if (!key) {
+    currentSocketKey = null;
+    hasReceivedInitialState = false;
+    pendingPatch = {};
+    if (socket) {
+      try { socket.close(); } catch (e) {}
+      socket = null;
+    }
+    return;
+  }
+
+  if (socket && currentSocketKey === key && socket.readyState <= WebSocket.OPEN) return;
+
+  if (socket) {
+    try { socket.close(); } catch (e) {}
+    socket = null;
+  }
+
+  currentSocketKey = key;
+  hasReceivedInitialState = false;
+  pendingPatch = {};
+
+  socket = new WebSocket(`wss://turnaround-sync.deruellehugo-49c.workers.dev/${encodeURIComponent(key)}`);
+
+  socket.onopen = () => {
+    console.log("WebSocket connecté :", key);
+    // Envoyer le state complet seulement si le vol est actif (Cie+NVol+Date présents)
+    try {
+      const cie  = (document.getElementById('Cie')?.value  || '').trim();
+      const nvol = (document.getElementById('NVol')?.value || '').trim();
+      const date = (document.getElementById('Date')?.value || '').trim();
+      if(cie && nvol && date){
+        const fullPayload = collectFlightState();
+        if(fullPayload && typeof fullPayload === 'object' && Object.keys(fullPayload).length > 0){
+          socket.send(JSON.stringify(fullPayload));
+          pendingPatch = {};
+          // Demander le lock après envoi du state (si RZA connu)
+          setTimeout(() => requestLock(), 300);
+          return;
+        }
+      }
+    } catch(_) {}
+    flushPendingPatch();
+    // Demander le lock même si pas de state à envoyer
+    setTimeout(() => requestLock(), 300);
+  };
+
+  socket.onmessage = (event) => {
+    try {
+      const msg = JSON.parse(event.data);
+
+      if (msg.__type === "init") {
+        hasReceivedInitialState = true;
+        // Appliquer le state distant — applyRemotePayload protège les valeurs locales non vides
+        applyRemotePayload(msg.payload || {});
+        flushPendingPatch();
+        return;
+      }
+
+      if (msg.__type === "patch") {
+        const payload = msg.payload || {};
+        applyRemotePayload(payload);
+
+        // Si le RZA a changé → invalider le cache et re-fetch pour MAJ liste AK
+        if ('RZA' in payload) {
+          try {
+            const meta = getTabData()?.akMeta;
+            const newRza = (payload.RZA || '').toUpperCase().trim();
+            if (meta?.id) {
+              if (newRza) _rzaMapCache[String(meta.id)] = newRza;
+              else        delete _rzaMapCache[String(meta.id)];
+            }
+            if (meta?.linkedId) {
+              if (newRza) _rzaMapCache[String(meta.linkedId)] = newRza;
+              else        delete _rzaMapCache[String(meta.linkedId)];
+            }
+            // Forcer re-fetch serveur + re-render liste AK
+            _rzaMapLastFetch = 0;
+            if (window._lastAKPairs) renderAKList(window._lastAKPairs);
+          } catch(_) {}
+        }
+        return;
+      }
+
+      // Messages de lock
+      if (msg.__type === "lockGranted") {
+        window._hasLock = true;
+        setReadonlyMode(false);
+        closeLockModal();
+        console.log('[Lock] lockGranted pour', msg.rza);
+        // Renvoyer notre state local au DO pour écraser le state de l'autre agent
+        setTimeout(() => sendFullFlightState(), 300);
+        return;
+      }
+
+      if (msg.__type === "lockDenied") {
+        window._hasLock = false;
+        setReadonlyMode(true, msg.rza);
+        console.log('[Lock] lockDenied — vol tenu par', msg.rza);
+        showLockModal(msg.rza, msg.ts);
+        return;
+      }
+
+      if (msg.__type === "lockStolen") {
+        window._hasLock = false;
+        setReadonlyMode(true, msg.by);
+        console.log('[Lock] lockStolen par', msg.by);
+        showLockStolenModal(msg.by);
+        return;
+      }
+
+      if (msg.__type === "lockStatus") {
+        console.log('[Lock] lockStatus — locked=', msg.locked, 'rza=', msg.rza, '_hasLock=', window._hasLock);
+        if (!msg.locked) {
+          closeLockModal();
+          if (!window._hasLock) requestLock();
+        } else if (msg.locked && !window._hasLock) {
+          setReadonlyMode(true, msg.rza);
+          showLockModal(msg.rza, msg.ts);
+        }
+        return;
+      }
+
+      applyRemotePayload(msg || {});
+    } catch (err) {
+      console.error("Erreur message WebSocket :", err);
+    }
+  };
+
+  socket.onerror = (err) => {
+    console.error("WebSocket erreur:", err);
+  };
+
+  socket.onclose = () => {
+    console.log("WebSocket fermé");
+    if (currentSocketKey === key) {
+      socket = null;
+      hasReceivedInitialState = false;
+    }
+  };
+}
+
+function ensureSocketConnection(retries = 3, delay = 2000) {
+  let count = 0;
+
+  const tryConnect = () => {
+    count++;
+    connectFlightSocket();
+
+    if (socket && currentSocketKey === buildFlightKey()) return;
+    if (count >= retries) return;
+
+    setTimeout(tryConnect, delay);
+  };
+
+  tryConnect();
+}
+
+function sendFieldUpdate(id, value) {
+  if (isApplyingRemoteUpdate) return;
+
+  const key = buildFlightKey();
+  if (!key) return;
+
+  pendingPatch[id] = value;
+
+  if (!socket || currentSocketKey !== key || socket.readyState === WebSocket.CLOSED) {
+    connectFlightSocket();
+    return;
+  }
+
+  if (socket.readyState !== WebSocket.OPEN) return;
+
+  /* Batch debounce : on attend 200ms pour regrouper tous les changements
+     déclenchés par une même interaction avant d'envoyer un seul patch */
+  clearTimeout(_flushTimer);
+  _flushTimer = setTimeout(() => {
+    flushPendingPatch();
+  }, 200);
+}
+
+function setupRealtimeSync() {
+  if (realtimeSyncInitialized) {
+    ensureSocketConnection();
+    return;
+  }
+
+  realtimeSyncInitialized = true;
+
+  const keyFields = [
+    "Date",
+    "Immat",
+    "From",
+    "To",
+    "SIBT",
+    "SOBT",
+    "EOBT",
+    "AIBT",
+    "AOBT",
+    "Cie",
+    "NVol"
+  ];
+
+  keyFields.forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    el.addEventListener("change", () => {
+      ensureSocketConnection();
+    });
+  });
+
+  const syncFields = new Set([
+    "Cie",
+    "NVol",
+    "Callsign",
+    "From",
+    "To",
+    "Date",
+    "Parking",
+    "Immat",
+    "TypeAvion",
+    "SIBT",
+    "SOBT",
+    "EOBT",
+    "AOBT",
+    "AIBT",
+    "CTOT",
+
+    "DLcode1", "DLcode2", "DLcode3",
+    "DLduree1", "DLduree2", "DLduree3",
+    "FaitsSaillants",
+
+    "ArriveeFuel",
+    "PremierDebarque",
+    "PremierDebarqueL2",
+    "DernierDebarque",
+    "ArriveeLiftArr",
+    "DepartLiftArr",
+
+    "ArrPNT",
+    "ArrPNC",
+    "AvionPremierEmbarque",
+    "AvionDernierEmbarque",
+    "ArriveeLift",
+    "DepartLift",
+    "DepartFuel",
+    "ArriveeINAD",
+    "RemiseLID",
+    "FermeturePorteAvion",
+    "ConnexionAgentCasque",
+    "RechercheBagNombre","RechercheBagDebut","RechercheBagFin","AnnonceINAD","AppelNayak","BranchementGPU","DebranchementGPU",
+
+    "ArrPAX_MAIN",
+    "ArrPAX_INF",
+    "ArrBAGS",
+    "ArrPOIDS",
+    "ArrSI",
+
+    "PreviPAX_MAIN",
+    "PreviPAX_INF",
+    "PreviBAGS",
+    "PreviPOIDS",
+    "PreviTOB_FRRK",
+    "PreviMALE",
+    "PreviFEMALE",
+    "PreviCHILD",
+    "PreviINFANT",
+    "PreviTOB",
+    "PreviBAGS_OTHER",
+    "PreviPOIDS_OTHER",
+    "PreviSI",
+
+    "FinalMALE",
+    "FinalFEMALE",
+    "FinalADULT",
+    "FinalCHILD",
+    "FinalINFANT",
+    "FinalTOB",
+    "FinalOA",
+    "FinalOB",
+    "FinalOC",
+    "FinalOD",
+    "FinalBAGS",
+    "FinalPOIDS",
+    "FinalGB",
+    "FinalH1",
+    "FinalH2",
+    "FinalH3",
+    "FinalH4",
+    "FinalSI",
+
+    "BlockFuel",
+    "TaxiFuel",
+    "TripFuel",
+    "FuelUplift",
+    "CommChiffresPorte", "CommChargementPiste",
+    "FinalCREW",
+    "FinalTHOB"
+  ]);
+
+  // Champs LOAD — synchronisés en batch à la fermeture du modal, pas à chaque frappe
+  const ldmFields = new Set([
+    "ArrPAX_MAIN", "ArrPAX_INF", "ArrBAGS", "ArrPOIDS", "ArrSI",
+    "PreviPAX_MAIN", "PreviPAX_INF", "PreviBAGS", "PreviPOIDS",
+    "PreviTOB_FRRK", "PreviMALE", "PreviFEMALE", "PreviCHILD", "PreviINFANT",
+    "PreviTOB", "PreviBAGS_OTHER", "PreviPOIDS_OTHER", "PreviSI",
+    "PreviPoussettesPorte", "PreviPoussettesCBS",
+    "FinalMALE", "FinalFEMALE", "FinalADULT", "FinalCHILD", "FinalINFANT",
+    "FinalTOB", "FinalOA", "FinalOB", "FinalOC", "FinalOD",
+    "FinalBAGS", "FinalPOIDS", "FinalGB",
+    "FinalH1", "FinalH2", "FinalH3", "FinalH4", "FinalSI",
+    "BlockFuel", "TaxiFuel", "TripFuel", "FuelUplift",
+    "FinalCREW", "FinalTHOB", "CommChiffresPorte", "CommChargementPiste"
+  ]);
+
+  const pushIfSyncField = (event) => {
+    const el = event.target;
+    if (!el || !el.id) return;
+    if (!syncFields.has(el.id)) return;
+    if (el.readOnly) return;
+    // Champs LOAD → sync batch à la fermeture du modal, pas à chaque frappe
+    if (ldmFields.has(el.id)) return;
+
+    // Marque ce champ comme "modifié récemment" — protège contre l'écho distant
+    clearTimeout(_recentlyEdited.get(el.id));
+    _recentlyEdited.set(el.id, setTimeout(() => _recentlyEdited.delete(el.id), 3000));
+
+    // Vérifier si le vol est devenu vide
+    setTimeout(checkAndDeleteIfEmpty, 200);
+
+    const isImmediate =
+      event.type === "change" ||
+      el.tagName === "SELECT" ||
+      el.type === "date" ||
+      el.type === "time";
+
+    if (isImmediate) {
+      clearTimeout(debounceTimers[el.id]);
+      sendFieldUpdate(el.id, el.value);
+      return;
+    }
+
+    clearTimeout(debounceTimers[el.id]);
+    debounceTimers[el.id] = setTimeout(() => {
+      sendFieldUpdate(el.id, el.value);
+    }, 1000);
+  };
+
+  document.addEventListener("input", pushIfSyncField);
+  document.addEventListener("change", pushIfSyncField);
+
+  ensureSocketConnection();
+}
+  
+
+function toggleInfoVolEdit(){
+  const edit = document.getElementById('ivEdit');
+  const icon = document.getElementById('ivEditIcon');
+  const open = edit.style.display === 'none' || edit.style.display === '';
+  edit.style.display = open ? 'grid' : 'none';
+  icon.textContent = open ? '✅' : '✏️';
+}
+
+async function footerRefreshAK(){
+  const btn = document.getElementById('footerRefreshBtn');
+  if(!currentTabId) return;
+  const data = JSON.parse(localStorage.getItem('tab-'+currentTabId) || '{}');
+  if(!data.akMeta){
+    btn.style.animation = 'none';
+    btn.textContent = '✕';
+    setTimeout(()=>{ btn.textContent = '↻'; }, 800);
+    return;
+  }
+  btn.classList.add('is-loading');
+  try{
+    await refreshAKTab(currentTabId);
+  }finally{
+    btn.classList.remove('is-loading');
+  }
+}
+
+/* ===== TIME WRAP gestures ===== */
+(function(){
+  const LONG_MS  = 600;
+  const DBL_MS   = 320;
+  const s = {}; // state par id
+
+  function st(id){ if(!s[id]) s[id]={t:null,fired:false,last:0}; return s[id]; }
+
+  function openEdit(id){
+    const wrap = document.querySelector(`.time-wrap[data-id="${id}"]`);
+    const inp  = document.getElementById(id);
+    const disp = document.getElementById('tw-disp-'+id);
+    if(!wrap||!inp||!disp) return;
+    if(document.querySelector('.tw-editor[data-for="'+id+'"]')) return;
+
+    const rect = wrap.getBoundingClientRect();
+
+    const ed = document.createElement('input');
+    ed.type='text'; ed.className='input tw-editor';
+    ed.setAttribute('data-for', id);
+    ed.value=inp.value||''; ed.placeholder='HH:MM';
+    ed.maxLength=5; ed.inputMode='numeric';
+    ed.setAttribute('enterkeyhint','done');
+
+    function positionEditor(){
+      const r = wrap.getBoundingClientRect();
+      const vv = window.visualViewport;
+      // Sur Android, visualViewport donne les coords réelles après ouverture du clavier
+      const offsetTop  = vv ? vv.offsetTop  : 0;
+      const offsetLeft = vv ? vv.offsetLeft : 0;
+      ed.style.top    = (r.top  + offsetTop)  + 'px';
+      ed.style.left   = (r.left + offsetLeft) + 'px';
+      ed.style.width  = r.width  + 'px';
+      ed.style.height = r.height + 'px';
+    }
+
+    // Position fixe sur le wrap, en dehors du time-wrap pour éviter overflow:hidden
+    ed.style.cssText = `
+      position:fixed;
+      top:${rect.top}px; left:${rect.left}px;
+      width:${rect.width}px; height:${rect.height}px;
+      z-index:9999;
+      text-align:center; font-weight:900; font-size:1rem;
+      border-radius:var(--radius);
+      background:var(--card); color:var(--text);
+      border:2px solid #3273dc; padding:0; box-sizing:border-box;
+    `;
+    disp.style.visibility='hidden';
+    document.body.appendChild(ed);
+
+    // Recalculer la position quand le clavier Android ouvre (visualViewport resize)
+    if(window.visualViewport){
+      window.visualViewport.addEventListener('resize', positionEditor);
+      window.visualViewport.addEventListener('scroll', positionEditor);
+    }
+
+    setTimeout(()=>{ ed.focus(); ed.select(); },30);
+
+    let done=false;
+    function commit(){
+      if(done) return; done=true;
+      const m=(ed.value.trim()).match(/^(\d{1,2}):?(\d{2})$/);
+      if(m){
+        const hh=m[1].padStart(2,'0'),mm=m[2];
+        if(+hh<24&&+mm<60){
+          inp.value=hh+':'+mm;
+          inp.dispatchEvent(new Event('change',{bubbles:true}));
+          twSync(id); updateAllCalculations();
+        }
+      }
+      ed.remove(); disp.style.visibility='';
+      if(window.visualViewport){
+        window.visualViewport.removeEventListener('resize', positionEditor);
+        window.visualViewport.removeEventListener('scroll', positionEditor);
+      }
+    }
+    ed.addEventListener('blur',commit);
+    ed.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){e.preventDefault();commit();}
+      if(e.key==='Escape'){done=true;ed.remove();disp.style.visibility='';}
+    });
+  }
+
+  function clearVal(id){
+    const inp=document.getElementById(id); if(!inp) return;
+    inp.value='';
+    inp.dispatchEvent(new Event('change',{bubbles:true}));
+    twSync(id); updateAllCalculations();
+    // Forcer l'envoi direct via socket (bypass isApplyingRemoteUpdate)
+    _recentlyEdited.delete(id);
+    const patch = { [id]: '' };
+    if(socket && socket.readyState === WebSocket.OPEN && currentSocketKey){
+      socket.send(JSON.stringify(patch));
+    }
+  }
+
+  /* ---- zone click (−1 / now / +1) ---- */
+  document.addEventListener('click',function(e){
+    const zone=e.target.closest('.tw-zone');
+    if(!zone) return;
+    if(zone.classList.contains('tw-sched-zone')) return;
+    const wrap=zone.closest('.time-wrap'); if(!wrap) return;
+    const id=wrap.dataset.id; if(!id) return;
+    // Évite le double déclenchement après touch sur mobile
+    if(_touchHandled && (zone.classList.contains('tw-zone-left')||zone.classList.contains('tw-zone-right'))) return;
+    const action=zone.dataset.action;
+    if(action==='minus') adjustTime(id,-1);
+    else if(action==='plus') adjustTime(id,1);
+    else if(action==='now') setNow(id);
+    updateAllCalculations(); twSync(id);
+    if(window.getSelection) window.getSelection().removeAllRanges();
+    // Pas de blur() — évite les sauts de scroll sur tablette Android
+  });
+
+  /* ---- long press & double-tap sur zone centre ---- */
+  function onStart(id){
+    const o=st(id); o.fired=false;
+    clearTimeout(o.t);
+    o.t=setTimeout(()=>{ o.fired=true; openEdit(id); },LONG_MS);
+  }
+  function onEnd(id){
+    const o=st(id);
+    clearTimeout(o.t);
+    if(o.fired) return;
+    const now=Date.now();
+    if(now-o.last<DBL_MS){ o.last=0; clearVal(id); }
+    else { o.last=now; }
+  }
+  function onCancel(id){ clearTimeout(st(id).t); }
+
+  document.addEventListener('touchstart',function(e){
+    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
+    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
+    onStart(id);
+  },{passive:true});
+
+  /* ---- touch sur -1/+1 : géré directement en touch pour éviter saut scroll ---- */
+  let _touchHandled = false;
+  document.addEventListener('touchend',function(e){
+    const zone=e.target.closest('.tw-zone-left, .tw-zone-right');
+    if(!zone) return;
+    if(zone.classList.contains('tw-sched-zone')) return;
+    const wrap=zone.closest('.time-wrap'); if(!wrap) return;
+    const id=wrap.dataset.id; if(!id) return;
+    const action=zone.dataset.action;
+    if(action==='minus') adjustTime(id,-1);
+    else if(action==='plus') adjustTime(id,1);
+    updateAllCalculations(); twSync(id);
+    if(window.getSelection) window.getSelection().removeAllRanges();
+    _touchHandled = true;
+    setTimeout(()=>{ _touchHandled = false; }, 400);
+  },{passive:true});
+  document.addEventListener('touchend',function(e){
+    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
+    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
+    onEnd(id);
+
+  },{passive:true});
+  document.addEventListener('touchmove',function(e){
+    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
+    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
+    onCancel(id);
+  },{passive:true});
+
+  // desktop : long mousedown sur centre = éditer, dblclick = effacer
+  let mTimer=null;
+  document.addEventListener('mousedown',function(e){
+    if(e.button!==0) return;
+    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
+    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
+    const o=st(id); o.fired=false;
+    mTimer=setTimeout(()=>{ o.fired=true; openEdit(id); },LONG_MS);
+  });
+  document.addEventListener('mouseup',function(){ clearTimeout(mTimer); mTimer=null; });
+  document.addEventListener('dblclick',function(e){
+    const z=e.target.closest('.tw-zone-center, .tw-sched-zone'); if(!z) return;
+    const id=z.closest('.time-wrap')?.dataset?.id; if(!id) return;
+    clearVal(id);
+  });
+})();
+
+function twSync(id){
+  const inp = document.getElementById(id);
+  const disp = document.getElementById('tw-disp-' + id);
+  if(!inp || !disp) return;
+  disp.textContent = inp.value || '--:--';
+}
+// Sync all tw displays on load and after calculations
+const _origUpdateAll = typeof updateAllCalculations === 'function' ? updateAllCalculations : null;
+function twSyncAll(){
+  document.querySelectorAll('.time-wrap').forEach(w => {
+    const id = w.dataset.id;
+    if(id) twSync(id);
+  });
+}
+
+function delayMinsFromHHMM(planned, actual){
+  if(!planned || !actual) return null;
+  const toMin = s => { const [h,m] = s.split(':').map(Number); return h*60+m; };
+  let diff = toMin(actual) - toMin(planned);
+  // gestion passage minuit
+  if(diff < -720) diff += 1440;
+  if(diff > 720)  diff -= 1440;
+  return diff;
+}
+
+function updateIVBadges(){
+  const sibt = document.getElementById('SIBT')?.value || '';
+  const aibt = document.getElementById('AIBT')?.value || '';
+  const sobt = document.getElementById('SOBT')?.value || '';
+  const aobt = document.getElementById('AOBT')?.value || '';
+
+  function renderBadge(el, mins){
+    if(!el) return;
+    el.className = '';
+    el.textContent = '';
+    // Badges INFO VOL désactivés
+  }
+
+  const arrEl = document.getElementById('ivBadgeArr');
+  const depEl = document.getElementById('ivBadgeDep');
+
+  // ARR : SIBT planifié, AIBT réel
+  renderBadge(arrEl, delayMinsFromHHMM(sibt, aibt));
+  // DEP : SOBT planifié, AOBT réel
+  renderBadge(depEl, delayMinsFromHHMM(sobt, aobt));
+}
+
+
+
+function checkAndDeleteIfEmpty(){
+  // Le vol est actif tant que Cie + NVol + Date sont présents
+  const cie  = (document.getElementById('Cie')?.value  || '').trim();
+  const nvol = (document.getElementById('NVol')?.value || '').trim();
+  const date = (document.getElementById('Date')?.value || '').trim();
+  const hasData = cie && nvol && date;
+
+  if(!hasData && socket && socket.readyState === WebSocket.OPEN && currentSocketKey){
+    // Envoyer un state vide via WebSocket → le serveur supprime du dashboard
+    const emptyState = {};
+    ids.forEach(id => { emptyState[id] = ''; });
+    emptyState['Cie'] = '';
+    emptyState['From'] = '';
+    emptyState['To'] = '';
+    emptyState['Immat'] = '';
+    emptyState['Parking'] = '';
+    socket.send(JSON.stringify(emptyState));
+  }
+}
+</script>
+  
+
+<script>
+/* ===== ResizeObserver : --fixed-header-h dynamique ===== */
+(function() {
+  const header = document.querySelector('.fixed-header');
+  if (!header) return;
+  const update = () => {
+    document.documentElement.style.setProperty(
+      '--fixed-header-h', header.offsetHeight + 'px'
+    );
+  };
+  update(); // valeur initiale
+  new ResizeObserver(update).observe(header);
+})();
+
+
+</script>
+
+
+<script>
+/* ===== Service Worker — enregistrement ===== */
+if ('serviceWorker' in navigator) {
+  const swCode = `
+const CACHE = 'suivi-perf-v1';
+const PRECACHE = [];   // fichiers à précacher (vide = online-only)
+
+self.addEventListener('install', e => {
+  self.skipWaiting();
+  if (PRECACHE.length) e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
+});
+
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+    ).then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', e => {
+  // Ne pas intercepter les requêtes non-HTTP (chrome-extension, data:, etc.)
+  if (!e.request.url.startsWith('http')) return;
+  // Ne pas intercepter les WebSocket
+  if (e.request.url.startsWith('ws://') || e.request.url.startsWith('wss://')) return;
+
+  // Stratégie : Network-first, fallback cache, fallback réponse vide
+  e.respondWith(
+    fetch(e.request)
+      .then(resp => {
+        // Ne mettre en cache que les réponses valides GET
+        if (resp.ok && e.request.method === 'GET') {
+          const clone = resp.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
+        return resp;
+      })
+      .catch(() =>
+        caches.match(e.request).then(cached =>
+          cached || new Response('', { status: 503, statusText: 'Offline' })
+        )
+      )
+  );
+});
+`;
+  const blob = new Blob([swCode], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl, { scope: '/' })
+    .catch(() => {/* SW optionnel, pas bloquant */});
+}
+
+/* ─── Refresh AK unique 5 min après premier embarqué ─────────────────────── */
+(function initPremierEmbRefresh() {
+  let _timer = null;
+
+  function scheduleRefresh() {
+    if (_timer) return; // déjà planifié
+    _timer = setTimeout(async () => {
+      _timer = null;
+      const tabId = typeof currentTabId !== 'undefined' ? currentTabId : null;
+      if (!tabId) return;
+      // Ne pas déclencher si AOBT déjà renseigné
+      const aobt = (document.getElementById('AOBT')?.value || '').trim();
+      if (aobt) return;
+      console.log('[AutoRefreshAK] Refresh après premier embarqué (5 min)');
+      try { await refreshAKTab(tabId); } catch(e) {}
+    }, 5 * 60 * 1000);
+    console.log('[AutoRefreshAK] Refresh planifié dans 5 min (premier embarqué)');
+  }
+
+  function cancelRefresh() {
+    if (_timer) { clearTimeout(_timer); _timer = null; }
+  }
+
+  document.addEventListener('change', e => {
+    if (!e.target) return;
+    // Déclencheur : AvionPremierEmbarque rempli
+    if (e.target.id === 'AvionPremierEmbarque' && e.target.value) {
+      scheduleRefresh();
+    }
+    // Déclencheur : AIBT renseigné → refresh AK dans 15s (seulement si saisi manuellement)
+    if (e.target.id === 'AIBT' && e.target.value && !isApplyingRemoteUpdate && !settingFromAK) {
+      setTimeout(async () => {
+        const aobt = (document.getElementById('AOBT')?.value || '').trim();
+        if (aobt) return; // déjà parti
+        const tabId = typeof currentTabId !== 'undefined' ? currentTabId : null;
+        if (!tabId) return;
+        console.log('[AutoRefreshAK] Refresh après AIBT (15s)');
+        try { await refreshAKTab(tabId); } catch(e) {}
+      }, 15 * 1000);
+    }
+    // Annuler si AOBT reçu
+    if (e.target.id === 'AOBT' && e.target.value) {
+      cancelRefresh();
+    }
+    // Annuler si premier embarqué effacé
+    if (e.target.id === 'AvionPremierEmbarque' && !e.target.value) {
+      cancelRefresh();
+    }
+  });
+
+  // Annuler aussi au changement d'onglet via switchTab
+  const _origSwitchTab = window.switchTab;
+  window._cancelPremierEmbRefresh = cancelRefresh;
+})();
+</script>
+
+
 
 <!-- ===== LIGHTBOX ===== -->
 <div id="lightboxOverlay" onclick="closeLightbox()"
