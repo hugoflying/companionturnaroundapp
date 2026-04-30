@@ -2364,7 +2364,6 @@ function getTabData(){
 function setTabData(data){
   if(!currentTabId) return;
   localStorage.setItem('tab-'+currentTabId, JSON.stringify(data));
-  }
 }
 
 /**
@@ -4155,7 +4154,6 @@ function loadTabData(id){
   if(!raw) return;
 
   const data = JSON.parse(raw);
-  try {
     for(const k in data){
       // ✅ toggles globaux : jamais restaurés depuis l’onglet
       if(k === 'utcToggle' || k === 'darkToggle') continue;
@@ -4169,7 +4167,6 @@ function loadTabData(id){
         el.value = data[k];
       }
     }
-  }
 
   // ✅ Restore visuel des timers (divs non-input)
   const setTxt = (id, v)=>{
@@ -5780,6 +5777,17 @@ function _renderAKListWithRza(pairs, list, akIdToRza){
     const suf      = tSuffix ? ' <span style="font-size:.7em;opacity:.65;font-weight:600;">('+tSuffix+')</span>' : '';
     const timeStr  = t ? escapeHtml(t)+suf : '—';
     const rzaHtml = '';
+
+    // Heure estimée
+    let estimatedStr = '';
+    if(tSuffix === 'S'){
+      const toHHMM = (iso)=>{
+        const d = iso ? new Date(iso) : null;
+        if(!d || isNaN(d.getTime())) return '';
+        const hh = String(isUTC ? d.getUTCHours() : d.getHours()).padStart(2,'0');
+        const mm = String(isUTC ? d.getUTCMinutes() : d.getMinutes()).padStart(2,'0');
+        return `${hh}:${mm}`;
+      };
       const est = flow==='DEP' ? toHHMM(f.eobt||f.etot||'') : toHHMM(f.eibt||f.eldt||'');
       if(est && est !== t && barColor !== '#16a34a'){
         estimatedStr = ' <span style="font-weight:900;color:'+barColor+';">→ '+escapeHtml(est)+'<span style="font-size:.7em;opacity:.8;"> (E)</span></span>';
@@ -6756,7 +6764,7 @@ function openCloseAllModal(){
 }
 
 function confirmCloseAll() {
-  document.getElementById(\'closeAllModal\').style.display = \'none\';
+  document.getElementById('closeAllModal').style.display = 'none';
   clearTimeout(window._sendFullDebounce);
   clearTimeout(saveTimer); saveTimer = null;
   localStorage.clear();
