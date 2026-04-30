@@ -7,11 +7,11 @@ const CACHE_NAME = 'suivi-perf-v1';
 
 /* Fichiers précachés au premier chargement */
 const PRECACHE = [
-  '/',
-  '/index.html',
-  '/icon-192.png',
-  '/icon-512.png',
-  'https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css'
+  './',
+  './index.html',
+  './icon-192.png',
+  './icon-512.png',
+  './css/bulma.min.css'
 ];
 
 /* ── Install : précache ── */
