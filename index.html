@@ -1797,6 +1797,10 @@ html.dark #btn-gpu.is-info { background: #2563eb; color: #fff; border-color: #25
           <div class="kv-title">Immat / Type</div>
           <div class="kv-value"><span id="kvImmat">------</span> · <span id="kvType">--</span></div>
         </div>
+        <div class="kv-left" style="text-align:right;">
+          <div class="kv-title">Parking</div>
+          <div class="kv-value"><span id="kvPark">--</span></div>
+        </div>
       </div>
     </div>
 
@@ -5601,6 +5605,54 @@ function depAtotTooOld(dep, minutes = 15){
 }
 
 // ===== Chargement liste (vols du jour) - ARR+DEP groupés =====
+function importAKFromFile(input){
+  const file = input.files[0];
+  if(!file) return;
+  const st = document.getElementById('akStatus');
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      // Accepte format {arr:[...], dep:[...]} ou tableau de pairs [{arr,dep},...]
+      if(data.arr && data.dep){
+        window._akCache = { arr: data.arr, dep: data.dep };
+      } else if(Array.isArray(data)){
+        // Format pairs directs
+        if(st) st.textContent = data.length + ' vol(s)';
+        renderAKList(data);
+        input.value = '';
+        return;
+      } else {
+        throw new Error('Format invalide — attendu {arr:[...], dep:[...]}');
+      }
+      // Re-construire les pairs comme loadAKFlights
+      const arrAll = window._akCache.arr;
+      const depAll = window._akCache.dep;
+      const usedDep = new Set(), pairs = [];
+      for(const arr of arrAll){
+        const dep = findLinkedDepForArr(arr);
+        if(dep && !usedDep.has(dep.id)){ pairs.push({arr,dep}); usedDep.add(dep.id); }
+        else { pairs.push({arr, dep:null}); }
+      }
+      for(const dep of depAll){ if(!usedDep.has(dep.id)) pairs.push({arr:null,dep}); }
+      pairs.sort((a,b)=>{
+        const ta = a.arr ? arrTimeMs(a.arr) : (a.dep ? depTimeMs(a.dep) : null);
+        const tb = b.arr ? arrTimeMs(b.arr) : (b.dep ? depTimeMs(b.dep) : null);
+        if(ta==null&&tb==null) return 0; if(ta==null) return 1; if(tb==null) return -1;
+        return ta-tb;
+      });
+      if(st) st.textContent = pairs.length + ' vol(s)';
+      renderAKList(pairs);
+      showPopup('✅ ' + pairs.length + ' vols importés', '#16a34a', 1800);
+    }catch(err){
+      if(st) st.textContent = 'Erreur import';
+      showPopup('❌ ' + String(err.message || err), '#ef4444', 2500);
+    }
+    input.value = '';
+  };
+  reader.readAsText(file);
+}
+
 async function loadAKFlights(){
   const st   = document.getElementById('akStatus');
   const list = document.getElementById('akList');
@@ -6854,6 +6906,11 @@ function toggleDepExtra(panel){
     <button class="button is-small is-link" type="button" onclick="loadAKFlights()">
       Rafraîchir
     </button>
+    <button class="button is-small is-warning" type="button" onclick="document.getElementById('akImportInput').click()" title="Importer un fichier JSON de vols">
+      📂 Importer JSON
+    </button>
+    <input id="akImportInput" type="file" accept=".json,application/json" style="display:none"
+           onchange="importAKFromFile(this)">
     <span class="tag is-light" id="akStatus">—</span>
     <button class="button is-small is-light" type="button"
             style="margin-left:auto"
