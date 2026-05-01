@@ -1513,6 +1513,17 @@ html.dark #btn-gpu.is-info { background: #2563eb; color: #fff; border-color: #25
         <div class="ldm-card-sub">FINAL</div>
       </div>
 
+      <!-- Badge config immat -->
+      <div id="acConfigBadge" style="display:none; margin: 6px 14px 0; padding: 6px 10px; border-radius: 8px;
+           background: var(--accent, #2563eb); color:#fff; font-weight:900; font-size:.82rem;
+           display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <span id="acConfigName" style="font-size:.88rem; letter-spacing:.05em;"></span>
+        <span style="opacity:.7;">|</span>
+        <span>MTOM <span id="acConfigMTOM" style="letter-spacing:.03em;"></span></span>
+        <span>MZFM <span id="acConfigMZFM"></span></span>
+        <span>MLDM <span id="acConfigMLDM"></span></span>
+      </div>
+
       <div class="ldm-grid">
 
         <div class="field">
@@ -2659,6 +2670,130 @@ function checkDangerField(id){
 }
 
 
+
+// ===== FLEET DATABASE : immat → config avion =====
+const FLEET_DB = (function(){
+  const WZZ_186Y_ZONES = { OA:'60 (1-10)', OB:'66 (11-21)', OC:'60 (22-31)' };
+  const WZZ_HOLDS      = { H1:'3402 kg', H2:'', H3:'2426 kg', H4:'2110 kg' };
+
+  // Wizz subtype WV008 — MTOM 73.5 t
+  const WV008 = {
+    airline:'W6', acType:'A320', config:'A320-186Y WV008 (73.5t)',
+    zones: WZZ_186Y_ZONES, holds: WZZ_HOLDS,
+    mtom: 73500, mzfm: 61000, mldm: 64500
+  };
+  // Wizz subtype WV013 — MTOM 71.5 t
+  const WV013 = {
+    airline:'W4', acType:'A320', config:'A320-186Y WV013 (71.5t)',
+    zones: WZZ_186Y_ZONES, holds: WZZ_HOLDS,
+    mtom: 71500, mzfm: 61000, mldm: 64500
+  };
+
+  // ─── Volotea ───────────────────────────────────────────────────
+  // Chargement standard A319 : H4 d'abord (85 pcs), H5→H2 (max 30), H1 (reste+spécial+COMAT)
+  // Zones OA/OB/OC : à définir (document en attente)
+  const VOE_A319_HOLDS = { H1:'Reste + Spécial + COMAT', H2:'Max 30 pcs (H5)', H3:'', H4:'85 pcs en 1er' };
+  // Chargement standard A320 : H1 (95), H3 (55), H4 (reste+spécial / COMAT), H5=NIL
+  const VOE_A320_HOLDS = { H1:'95 pcs en 1er', H2:'', H3:'55 pcs suivants', H4:'Reste + Spécial / COMAT' };
+  const VOE_ZONES_TBD  = { OA:'', OB:'', OC:'' }; // zones à définir
+
+  const VOE_A319_138 = {
+    airline:'V7', acType:'A319', config:'A319 Y138',
+    zones: VOE_ZONES_TBD, holds: VOE_A319_HOLDS,
+    mtom: 68000, mzfm: 57000, mldm: 61000
+  };
+  const VOE_A319_150 = {
+    airline:'V7', acType:'A319', config:'A319 Y150',
+    zones: VOE_ZONES_TBD, holds: VOE_A319_HOLDS,
+    mtom: 68000, mzfm: 57000, mldm: 61000
+  };
+  const VOE_A319_156 = {
+    airline:'V7', acType:'A319', config:'A319 Y156',
+    zones: VOE_ZONES_TBD, holds: VOE_A319_HOLDS,
+    mtom: 68000, mzfm: 57000, mldm: 61000
+  };
+  const VOE_A320_180 = {
+    airline:'V7', acType:'A320', config:'A320 Y180',
+    zones: VOE_ZONES_TBD, holds: VOE_A320_HOLDS,
+    mtom: 73500, mzfm: 61000, mldm: 64500
+  };
+
+  const DB = {};
+
+  // WV008
+  ['9H-WZQ'].forEach(r => DB[r.replace('-','')] = WV008);
+
+  // WV013
+  ['9H-WAU','9H-WAV','9H-WBO','9H-WBP','9H-WBQ','9H-WDA','9H-WZR','9H-WZW'].forEach(r => DB[r.replace('-','')] = WV013);
+
+  // Volotea Y138
+  ['EC-NDH'].forEach(r => DB[r.replace('-','')] = VOE_A319_138);
+
+  // Volotea Y150
+  ['EC-NDG'].forEach(r => DB[r.replace('-','')] = VOE_A319_150);
+
+  // Volotea Y156
+  ['EC-MTC','EC-MTD','EC-MTE','EC-MTF','EC-MTM','EC-MTN','EC-MUC','EC-MUT','EC-MUU','EC-MUY','EC-MUX','EC-NCB','EC-NGL','EC-NHP'].forEach(r => DB[r.replace('-','')] = VOE_A319_156);
+
+  // Volotea Y180 (A320)
+  ['EC-ISI','EC-KMI','EC-MBK','EC-NNY','EC-NNZ','EC-NOL','EC-NOM','EC-NON','EC-NOP','EC-NOQ','EC-NOR','EC-NOS','EC-NOY','EC-NPB','EC-NPC','EC-NQM','EC-NQN','EC-NTU','EC-NTL','EC-NTM','EC-OEI','EC-OEH','EC-OJT','EC-OOC'].forEach(r => DB[r.replace('-','')] = VOE_A320_180);
+
+  return DB;
+})();
+
+function getAcConfig(immat){
+  if(!immat) return null;
+  const key = immat.toUpperCase().replace(/[-\s]/g,'');
+  return FLEET_DB[key] || null;
+}
+
+function applyAircraftConfig(){
+  const immat = (document.getElementById('Immat')?.value || '').trim();
+  const cfg = getAcConfig(immat);
+
+  const badge = document.getElementById('acConfigBadge');
+  if(!badge) return;
+
+  if(!cfg){
+    badge.style.display = 'none';
+    // Remettre les placeholders normaux
+    updateFinalPlaceholdersFRRK();
+    return;
+  }
+
+  // Afficher le badge
+  badge.style.display = 'flex';
+  document.getElementById('acConfigName').textContent = cfg.config;
+  document.getElementById('acConfigMTOM').textContent = (cfg.mtom/1000).toFixed(1) + ' t';
+  document.getElementById('acConfigMZFM').textContent = (cfg.mzfm/1000).toFixed(1) + ' t';
+  document.getElementById('acConfigMLDM').textContent = (cfg.mldm/1000).toFixed(1) + ' t';
+
+  // Auto-remplir TypeAvion si vide
+  const typeEl = document.getElementById('TypeAvion');
+  if(typeEl && !typeEl.value.trim()){
+    typeEl.value = cfg.acType;
+    typeEl.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  // Appliquer les zones et holds en placeholder
+  const setPH = (id, txt) => {
+    const el = document.getElementById(id);
+    if(el) el.placeholder = txt || '';
+  };
+  if(cfg.zones){
+    setPH('FinalOA', cfg.zones.OA || '');
+    setPH('FinalOB', cfg.zones.OB || '');
+    setPH('FinalOC', cfg.zones.OC || '');
+    setPH('FinalOD', cfg.zones.OD || '');
+  }
+  if(cfg.holds){
+    setPH('FinalH1', cfg.holds.H1 || '');
+    setPH('FinalH2', cfg.holds.H2 || '');
+    setPH('FinalH3', cfg.holds.H3 || '');
+    setPH('FinalH4', cfg.holds.H4 || '');
+  }
+}
+
 function updateFinalPlaceholdersFRRK(){
   const cie  = (document.getElementById('Cie')?.value || '').toUpperCase().trim();
   const type = (document.getElementById('TypeAvion')?.value || '').toUpperCase().trim();
@@ -3604,6 +3739,7 @@ function initForm(){
   hookStrip('From', 'input');
   hookStrip('To', 'input');
   hookStrip('Immat', 'input');
+  document.getElementById('Immat')?.addEventListener('input', applyAircraftConfig);
   hookStrip('NVol', 'input');
   hookStrip('Cie', 'change');
   hookStrip('TypeAvion', 'change');
@@ -3761,6 +3897,7 @@ function initForm(){
     });
   });
   if(typeof twSyncAll === "function") setTimeout(twSyncAll, 50);
+  setTimeout(applyAircraftConfig, 80);
 }
 
 function updateInfoStrip(){
