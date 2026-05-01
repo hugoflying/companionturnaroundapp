@@ -1512,16 +1512,6 @@ html.dark #btn-gpu.is-info { background: #2563eb; color: #fff; border-color: #25
         <div class="ldm-card-title">LOAD FINAL</div>
         <div class="ldm-card-sub">FINAL</div>
       </div>
-
-      <!-- Badge config immat -->
-      <div id="acConfigBadge" style="display:none; margin: 6px 14px 0; padding: 6px 10px; border-radius: 8px; background: var(--accent, #2563eb); color:#fff; font-weight:900; font-size:.82rem; gap:12px; align-items:center; flex-wrap:wrap;">
-        <span id="acConfigName" style="font-size:.88rem; letter-spacing:.05em;"></span>
-        <span style="opacity:.7;">|</span>
-        <span>MTOM <span id="acConfigMTOM" style="letter-spacing:.03em;"></span></span>
-        <span>MZFM <span id="acConfigMZFM"></span></span>
-        <span>MLDM <span id="acConfigMLDM"></span></span>
-      </div>
-
       <div class="ldm-grid">
 
         <div class="field">
@@ -1769,6 +1759,16 @@ html.dark #btn-gpu.is-info { background: #2563eb; color: #fff; border-color: #25
         <div class="k">LID</div>
         <div id="timer-h8" class="v">--:--</div>
       </div>
+    </div>
+
+    <!-- Indicateur UTC / LOCAL -->
+    <div id="utcIndicator" onclick="document.getElementById('utcToggle')?.click()"
+         style="position:absolute; top:6px; right:10px; cursor:pointer;
+                font-size:.72rem; font-weight:900; letter-spacing:.08em;
+                padding:2px 7px; border-radius:999px; user-select:none;
+                background:rgba(37,99,235,.15); color:#2563eb; border:1px solid rgba(37,99,235,.3);"
+         title="Cliquer pour basculer UTC / Heure locale">
+      LOCAL
     </div>
 
   </div>
@@ -2748,23 +2748,12 @@ function getAcConfig(immat){
 function applyAircraftConfig(){
   const immat = (document.getElementById('Immat')?.value || '').trim();
   const cfg = getAcConfig(immat);
-
-  const badge = document.getElementById('acConfigBadge');
-  if(!badge) return;
+  const setPH = (id, txt) => { const el = document.getElementById(id); if(el) el.placeholder = txt || ''; };
 
   if(!cfg){
-    badge.style.display = 'none';
-    // Remettre les placeholders normaux
     updateFinalPlaceholdersFRRK();
     return;
   }
-
-  // Afficher le badge
-  badge.style.display = 'flex';
-  document.getElementById('acConfigName').textContent = cfg.config;
-  document.getElementById('acConfigMTOM').textContent = (cfg.mtom/1000).toFixed(1) + ' t';
-  document.getElementById('acConfigMZFM').textContent = (cfg.mzfm/1000).toFixed(1) + ' t';
-  document.getElementById('acConfigMLDM').textContent = (cfg.mldm/1000).toFixed(1) + ' t';
 
   // Auto-remplir TypeAvion si vide
   const typeEl = document.getElementById('TypeAvion');
@@ -2773,11 +2762,7 @@ function applyAircraftConfig(){
     typeEl.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  // Appliquer les zones et holds en placeholder
-  const setPH = (id, txt) => {
-    const el = document.getElementById(id);
-    if(el) el.placeholder = txt || '';
-  };
+  // Appliquer zones et holds en placeholder
   if(cfg.zones){
     setPH('FinalOA', cfg.zones.OA || '');
     setPH('FinalOB', cfg.zones.OB || '');
@@ -5067,6 +5052,15 @@ function setTimeModeUTC(enable, fromInit=false){
 
   const tzLabel = document.getElementById('tzLabel');
   if(tzLabel) tzLabel.textContent = enable ? 'UTC' : 'Local';
+
+  // Indicateur UTC dans le header
+  const utcInd = document.getElementById('utcIndicator');
+  if(utcInd){
+    utcInd.textContent = enable ? 'UTC' : 'LOCAL';
+    utcInd.style.background = enable ? 'rgba(220,38,38,.15)' : 'rgba(37,99,235,.15)';
+    utcInd.style.color = enable ? '#dc2626' : '#2563eb';
+    utcInd.style.borderColor = enable ? 'rgba(220,38,38,.3)' : 'rgba(37,99,235,.3)';
+  }
 
   localStorage.setItem('modeUTC', enable ? '1' : '0');
 
